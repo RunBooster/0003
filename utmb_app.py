@@ -30,7 +30,7 @@ df = load_data()
 # URL brute GitHub de ton fichier GPX
 
 
-race = st.selectbox("Race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
+race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
 
 if race == "UTMB":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
