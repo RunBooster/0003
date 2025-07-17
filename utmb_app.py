@@ -30,6 +30,8 @@ df = load_data()
 # URL brute GitHub de ton fichier GPX
 gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
 
+race = st.selectbox("Race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
+
 # Liste des ravitaillements avec position en km
 ravitos = [
     {"nom": "Les Houches", "km": 7.8},
