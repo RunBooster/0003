@@ -133,7 +133,9 @@ fig.update_layout(
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
-    height=800
+    width=1000,
+    height=500
+    
 )
 
 st.plotly_chart(fig, use_container_width=True)
