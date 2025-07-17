@@ -27,20 +27,29 @@ def load_data():
 df = load_data()
 
 
-st.title("Profil Altimétrique de la course")
+st.title("Race profile")
 
 # URL brute GitHub de ton fichier GPX
 gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
 
 # Liste des ravitaillements avec position en km
 ravitos = [
-    {"nom": "Les Houches", "km": 8.0},
-    {"nom": "Saint-Gervais", "km": 21.3},
-    {"nom": "Les Contamines", "km": 31.4},
-    {"nom": "Courmayeur", "km": 78.8},
-    {"nom": "Champex-Lac", "km": 123.4},
-    {"nom": "Trient", "km": 143.2},
-    {"nom": "Chamonix (Arrivée)", "km": 170.0}
+    {"nom": "Les Houches", "km": 7.8},
+    {"nom": "Saint-Gervais", "km": 21.5},
+    {"nom": "Les Contamines", "km": 31.2},
+    {"nom": "La Balme", "km": 39.8},
+    {"nom": "Les Chapieux", "km": 50.9},
+    {"nom": "Lac Combal", "km": 70.3},
+    {"nom": "Checrouit", "km": 77.6},
+    {"nom": "Courmayeur", "km": 82.6},
+    {"nom": "Bertone", "km": 88.1},
+    {"nom": "Arnouvaz", "km": 100.9},
+    {"nom": "La Fouly", "km": 115.6},
+    {"nom": "Champex-Lac", "km": 129.4},
+    {"nom": "Trient", "km": 145.9},
+    {"nom": "Vallorcine", "km": 158.0},
+    {"nom": "La Flégère", "km": 169.3},
+    {"nom": "Chamonix (Arrivée)", "km": 176.0}
 ]
 
 @st.cache_data
@@ -120,7 +129,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title="Profil Altimétrique de la course avec Ravitaillements",
+    title="Race profile and Aid stations",
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
