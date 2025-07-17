@@ -133,7 +133,7 @@ fig.update_layout(
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
-    width=1000,
+    width=1200,
     height=500
     
 )
