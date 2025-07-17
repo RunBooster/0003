@@ -138,7 +138,7 @@ fig.update_layout(
     title="Race profile and Aid stations",
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
-   
+    hovermode="",
     width=1000,
     height=500
     
