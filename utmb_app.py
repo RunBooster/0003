@@ -6,6 +6,10 @@ import numpy as np
 from fpdf import FPDF
 import os
 from email.message import EmailMessage
+from scipy.optimize import curve_fit
+import plotly.graph_objs as go
+import gpxpy
+from geopy.distance import geodesic
 
 produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
