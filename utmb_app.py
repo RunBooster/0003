@@ -113,7 +113,7 @@ fig.add_trace(go.Scatter(
         'D+ cumulé : %{customdata:.0f} m'
     ),
     customdata=[round(d, 1) for d in cum_d_plus],
-    line=dict(color='green')
+    line=dict(color='gray')
 ))
 
 # Ajouter les ravitos comme scatter avec annotations
@@ -121,7 +121,7 @@ fig.add_trace(go.Scatter(
     x=[r[0] for r in ravito_points],
     y=[r[1] for r in ravito_points],
     mode='markers+text',
-    name='Ravitaillements',
+    name='Aid Station',
     marker=dict(color='blue', size=8, symbol='circle'),
     text=[r[2] for r in ravito_points],
     textposition="top center",
@@ -133,7 +133,7 @@ fig.update_layout(
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
-    height=600
+    height=800
 )
 
 st.plotly_chart(fig, use_container_width=True)
