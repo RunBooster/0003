@@ -7,11 +7,11 @@ from fpdf import FPDF
 import os
 from email.message import EmailMessage
 
-produits = "produits.xlsx"  
+produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
 
 left, middle =st.columns([1,3], vertical_alignment="bottom")
-left.image("RunBooster(1).png", width=100) 
+left.image("RunBooster.png", width=100) 
 middle.subheader("Boost ton run grâce à une alimentation controlée")
 st.divider()
 
