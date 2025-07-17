@@ -32,12 +32,23 @@ st.title("Profil Altimétrique de la course")
 # URL brute GitHub de ton fichier GPX
 gpx_url = "https://github.com/RunBooster/0003/blob/main/utmb.gpx"
 
+# Liste des ravitaillements avec position en km
+ravitos = [
+    {"nom": "Les Houches", "km": 8.0},
+    {"nom": "Saint-Gervais", "km": 21.3},
+    {"nom": "Les Contamines", "km": 31.4},
+    {"nom": "Courmayeur", "km": 78.8},
+    {"nom": "Champex-Lac", "km": 123.4},
+    {"nom": "Trient", "km": 143.2},
+    {"nom": "Chamonix (Arrivée)", "km": 170.0}
+]
+
 @st.cache_data
 def parse_gpx_from_url(url):
     response = requests.get(url)
     response.raise_for_status()
     gpx = gpxpy.parse(response.text)
-    
+
     points = [
         (p.latitude, p.longitude, p.elevation)
         for trk in gpx.tracks
@@ -47,7 +58,6 @@ def parse_gpx_from_url(url):
     ]
     return points
 
-# Chargement du GPX
 try:
     points = parse_gpx_from_url(gpx_url)
     if not points:
@@ -57,20 +67,30 @@ except Exception as e:
     st.error(f"Erreur lors du chargement : {e}")
     st.stop()
 
-# Calcul des distances cumulées et du dénivelé
+# Calcul des distances et dénivelé
 distances = [0.0]
 elevations = [points[0][2]]
-cum_d+elev = [0.0]
+cum_d_plus = [0.0]
 
 for i in range(1, len(points)):
     prev = points[i - 1]
     curr = points[i]
-    d = geodesic((prev[0], prev[1]), (curr[0], curr[1])).meters / 1000  # km
+    d = geodesic((prev[0], prev[1]), (curr[0], curr[1])).meters / 1000
     distances.append(distances[-1] + d)
     elevations.append(curr[2])
-    cum_d+elev.append(max(0, cum_d+elev[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d+elev[-1]))
+    cum_d_plus.append(
+        max(0, cum_d_plus[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d_plus[-1])
+    )
 
-# Tracé avec Plotly
+# Extraire altitude exacte aux km des ravitos (approximation)
+ravito_points = []
+for r in ravitos:
+    # Chercher l’index du point le plus proche de la distance
+    idx = min(range(len(distances)), key=lambda i: abs(distances[i] - r["km"]))
+    r["altitude"] = elevations[idx]
+    ravito_points.append((r["km"], elevations[idx], r["nom"]))
+
+# Tracer le profil
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
@@ -83,16 +103,28 @@ fig.add_trace(go.Scatter(
         'Altitude : %{y:.0f} m<br>' +
         'D+ cumulé : %{customdata:.0f} m'
     ),
-    customdata=[round(d, 1) for d in cum_d+elev],
+    customdata=[round(d, 1) for d in cum_d_plus],
     line=dict(color='green')
 ))
 
+# Ajouter les ravitos comme scatter avec annotations
+fig.add_trace(go.Scatter(
+    x=[r[0] for r in ravito_points],
+    y=[r[1] for r in ravito_points],
+    mode='markers+text',
+    name='Ravitaillements',
+    marker=dict(color='blue', size=8, symbol='circle'),
+    text=[r[2] for r in ravito_points],
+    textposition="top center",
+    hovertemplate='Ravito : %{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'
+))
+
 fig.update_layout(
-    title="Altitude en fonction de la distance",
+    title="Profil Altimétrique de la course avec Ravitaillements",
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
-    height=500
+    height=600
 )
 
 st.plotly_chart(fig, use_container_width=True)
