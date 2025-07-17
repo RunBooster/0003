@@ -8,3 +8,8 @@ seaborn>=0.13.2
 scikit-learn>=1.4.2
 fpdf>=1.7.2
 python-dotenv>=1.0.1
+
+scipy>=1.13.0
+plotly>=5.22.0
+gpxpy>=1.5.0
+geopy>=2.4.0
