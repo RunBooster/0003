@@ -122,6 +122,7 @@ fig.add_trace(go.Scatter(
     y=[r[1] for r in ravito_points],
     mode='markers+text',
     name='Aid Station',
+    showlegend=False,  # <-- ceci supprime la légende
     marker=dict(color='blue', size=8, symbol='circle'),
     text=[r[2] for r in ravito_points],
     textposition="top center",
@@ -133,7 +134,7 @@ fig.update_layout(
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
     hovermode="x unified",
-    width=1200,
+    width=1000,
     height=500
     
 )
