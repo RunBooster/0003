@@ -27,8 +27,6 @@ def load_data():
 df = load_data()
 
 
-st.title("Race profile")
-
 # URL brute GitHub de ton fichier GPX
 gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
 
