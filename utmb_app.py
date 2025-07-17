@@ -109,6 +109,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=distances,
     y=elevations,
+    name='-',
     mode='lines',
     showlegend=False,  # <-- ceci supprime la légende
     hovertemplate=(
@@ -137,7 +138,7 @@ fig.update_layout(
     title="Race profile and Aid stations",
     xaxis_title="Distance (km)",
     yaxis_title="Altitude (m)",
-    hovermode="x unified",
+   
     width=1000,
     height=500
     
