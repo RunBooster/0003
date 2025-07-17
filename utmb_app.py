@@ -39,17 +39,17 @@ ravitos = [
     {"nom": "Les Contamines", "km": 31.2},
     {"nom": "La Balme", "km": 39.8},
     {"nom": "Les Chapieux", "km": 50.9},
-    {"nom": "Lac Combal", "km": 70.3},
+    {"nom": "Lac Combal", "km": 68.0},
     {"nom": "Checrouit", "km": 77.6},
-    {"nom": "Courmayeur", "km": 82.6},
-    {"nom": "Bertone", "km": 88.1},
-    {"nom": "Arnouvaz", "km": 100.9},
+    {"nom": "Courmayeur", "km": 80.2},
+    {"nom": "Bertone", "km": 85.2},
+    {"nom": "Arnouvaz", "km": 97.4},
     {"nom": "La Fouly", "km": 115.6},
-    {"nom": "Champex-Lac", "km": 129.4},
-    {"nom": "Trient", "km": 145.9},
-    {"nom": "Vallorcine", "km": 158.0},
-    {"nom": "La Flégère", "km": 169.3},
-    {"nom": "Chamonix (Arrivée)", "km": 176.0}
+    {"nom": "Champex-Lac", "km": 127.2},
+    {"nom": "Trient", "km": 141.3},
+    {"nom": "Vallorcine", "km": 151.8},
+    {"nom": "La Flégère", "km": 159.5},
+    {"nom": "Chamonix (Arrivée)", "km": 170.0}
 ]
 
 @st.cache_data
