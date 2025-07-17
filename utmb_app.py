@@ -16,7 +16,7 @@ middle.subheader("Boost ton run grâce à une alimentation controlée")
 st.divider()
 
 def load_data():
-    df = pd.read_excel("produits.xlsx")  # Remplace par ton fichier
+    df = pd.read_excel("produits Baouw.xlsx")  # Remplace par ton fichier
     df["Marque"] = df["Marque"].astype(str) # Convertir toutes les valeurs en string
     df["Nom"] = df["Nom"].astype(str)     
     return df
