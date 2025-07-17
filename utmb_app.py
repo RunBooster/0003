@@ -10,9 +10,8 @@ from email.message import EmailMessage
 produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
 
-left, middle =st.columns([1,3], vertical_alignment="bottom")
-left.image("RunBooster.png", width=100) 
-middle.subheader("Boost ton run grâce à une alimentation controlée")
+
+st.image("RunBooster.png", width=600) 
 st.divider()
 
 def load_data():
