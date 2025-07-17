@@ -31,6 +31,7 @@ df = load_data()
 
 
 race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
+cote = st.number_input("Your UTMB Index", min_value=1, value=500)
 
 if race == "UTMB":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
