@@ -11,7 +11,7 @@ produits = "produits Baouw.xlsx"
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
 
 
-st.image("RunBooster.png", width=600) 
+st.image("RunBooster.png", width=1000) 
 st.divider()
 
 def load_data():
