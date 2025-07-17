@@ -110,7 +110,6 @@ fig.add_trace(go.Scatter(
     x=distances,
     y=elevations,
     mode='lines',
-    name='Altitude',
     showlegend=False,  # <-- ceci supprime la légende
     hovertemplate=(
         'Distance : %{x:.2f} km<br>' +
@@ -131,7 +130,7 @@ fig.add_trace(go.Scatter(
     marker=dict(color='blue', size=8, symbol='circle'),
     text=[r[2] for r in ravito_points],
     textposition="top center",
-    hovertemplate='Ravito : %{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'
+    hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'
 ))
 
 fig.update_layout(
