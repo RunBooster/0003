@@ -28,29 +28,35 @@ df = load_data()
 
 
 # URL brute GitHub de ton fichier GPX
-gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
+
 
 race = st.selectbox("Race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
 
-# Liste des ravitaillements avec position en km
-ravitos = [
-    {"nom": "Les Houches", "km": 7.8},
-    {"nom": "Saint-Gervais", "km": 21.5},
-    {"nom": "Les Contamines", "km": 31.2},
-    {"nom": "La Balme", "km": 39.8},
-    {"nom": "Les Chapieux", "km": 50.9},
-    {"nom": "Lac Combal", "km": 68.0},
-    {"nom": "Checrouit", "km": 77.6},
-    {"nom": "Courmayeur", "km": 80.2},
-    {"nom": "Bertone", "km": 85.2},
-    {"nom": "Arnouvaz", "km": 97.4},
-    {"nom": "La Fouly", "km": 115.6},
-    {"nom": "Champex-Lac", "km": 127.2},
-    {"nom": "Trient", "km": 141.3},
-    {"nom": "Vallorcine", "km": 151.8},
-    {"nom": "La Flégère", "km": 159.5},
-    {"nom": "Chamonix (Arrivée)", "km": 170.0}
-]
+if race == "UTMB":
+    gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
+    ravitos = [
+        {"nom": "Les Houches", "km": 7.8},
+        {"nom": "Saint-Gervais", "km": 21.5},
+        {"nom": "Les Contamines", "km": 31.2},
+        {"nom": "La Balme", "km": 39.8},
+        {"nom": "Les Chapieux", "km": 50.9},
+        {"nom": "Lac Combal", "km": 68.0},
+        {"nom": "Checrouit", "km": 77.6},
+        {"nom": "Courmayeur", "km": 80.2},
+        {"nom": "Bertone", "km": 85.2},
+        {"nom": "Arnouvaz", "km": 97.4},
+        {"nom": "La Fouly", "km": 115.6},
+        {"nom": "Champex-Lac", "km": 127.2},
+        {"nom": "Trient", "km": 141.3},
+        {"nom": "Vallorcine", "km": 151.8},
+        {"nom": "La Flégère", "km": 159.5},
+        {"nom": "Chamonix (Arrivée)", "km": 170.0}
+    ]
+if else race == "TDS":
+    
+
+    
+
 
 @st.cache_data
 def parse_gpx_from_url(url):
