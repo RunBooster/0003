@@ -107,6 +107,7 @@ fig.add_trace(go.Scatter(
     y=elevations,
     mode='lines',
     name='Altitude',
+    showlegend=False,  # <-- ceci supprime la légende
     hovertemplate=(
         'Distance : %{x:.2f} km<br>' +
         'Altitude : %{y:.0f} m<br>' +
