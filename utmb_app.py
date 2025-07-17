@@ -30,7 +30,7 @@ df = load_data()
 st.title("Profil Altimétrique de la course")
 
 # URL brute GitHub de ton fichier GPX
-gpx_url = "https://github.com/RunBooster/0003/blob/main/utmb.gpx"
+gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
 
 # Liste des ravitaillements avec position en km
 ravitos = [
