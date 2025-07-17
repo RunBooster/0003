@@ -10,6 +10,7 @@ from scipy.optimize import curve_fit
 import plotly.graph_objs as go
 import gpxpy
 from geopy.distance import geodesic
+import requests
 
 produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
@@ -25,27 +26,38 @@ def load_data():
     return df
 df = load_data()
 
-uploaded_file = "utmb.gpx"
+uploaded_file = "https://github.com/RunBooster/0003/blob/main/utmb.gpx"
+
+
 def calculate_slope_gradient(elev1, elev2, dist):
     if dist < 1:
         return 0
     return (elev2 - elev1) / dist * 100.0
 
+
+try:
+    response = requests.get(uploaded_file)
+    response.raise_for_status()  # Génère une exception si le téléchargement échoue
+
+    gpx = gpxpy.parse(response.text)
+
+    points = [
+        (p.latitude, p.longitude, p.elevation)
+        for trk in gpx.tracks
+        for seg in trk.segments
+        for p in seg.points
+        if None not in (p.latitude, p.longitude, p.elevation)
+    ]
+
+    st.success("Fichier GPX chargé avec succès !")
+    st.write(f"Nombre de points : {len(points)}")
+
+except Exception as e:
+    st.error(f"Erreur lors du chargement du fichier GPX : {e}")
+    points = []
+
+
 if uploaded_file is not None:
-    try:
-        gpx = gpxpy.parse(uploaded_file)
-        points = [
-            (p.latitude, p.longitude, p.elevation)
-            for trk in gpx.tracks
-            for seg in trk.segments
-            for p in seg.points
-            if None not in (p.latitude, p.longitude, p.elevation)
-        ]
-    except Exception as e:
-        st.error(f"Erreur lors du traitement du fichier GPX : {e}")
-        points = []
-
-
     if len(points) < 2:
         st.warning("Pas assez de points pour effectuer l'analyse.")
     else:
