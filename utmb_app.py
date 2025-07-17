@@ -109,7 +109,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=distances,
     y=elevations,
-    name='-',
+    name='',
     mode='lines',
     showlegend=False,  # <-- ceci supprime la légende
     hovertemplate=(
