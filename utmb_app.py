@@ -31,7 +31,7 @@ def calculate_slope_gradient(elev1, elev2, dist):
         return 0
     return (elev2 - elev1) / dist * 100.0
 
-if uploaded_file is not None and uploaded_file.name.endswith(".gpx"):
+if uploaded_file is not None:
     try:
         gpx = gpxpy.parse(uploaded_file)
         points = [
