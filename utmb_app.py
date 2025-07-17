@@ -52,8 +52,6 @@ if race == "UTMB":
         {"nom": "La Flégère", "km": 159.5},
         {"nom": "Chamonix (Arrivée)", "km": 170.0}
     ]
-if else race == "TDS":
-    
 
     
 
