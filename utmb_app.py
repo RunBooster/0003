@@ -133,7 +133,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 temp=st.checkbox("More than 20°C scheduled?")
 
-col0, col1, col2, col3 = st.columns([0.5, 0.5, 0.5, 2])  
+col0, col1, col2, col3 = st.columns([0.5, 0.5, 0.5, 1.8])  
 with col0:
     st.write("Intolérances ?")
 with col1:
