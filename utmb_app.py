@@ -132,10 +132,16 @@ fig.update_layout(title="Race profile and Aid stations", xaxis_title="Distance (
 st.plotly_chart(fig, use_container_width=True)
 
 temp=st.checkbox("More than 20°C scheduled?")
-st.write("Intolerances?")
-filtrer_noix = st.checkbox("Nuts")
-filtrer_lactose = st.checkbox("Lactose")
-filtrer_gluten = st.checkbox("Gluten")
+
+col0, col1, col2, col3 = st.columns([1, 1, 1, 1])  
+with col0:
+    st.write("Intolérances ?")
+with col1:
+    filtrer_noix = st.checkbox("Nuts")
+with col2:
+    filtrer_lactose = st.checkbox("Lactose")
+with col3:
+    filtrer_gluten = st.checkbox("Gluten")
 
 prenom = st.text_input("First name")
 nom = st.text_input("Last name")
