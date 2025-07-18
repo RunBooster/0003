@@ -142,7 +142,8 @@ with col2:
     filtrer_lactose = st.checkbox("Lactose")
 with col3:
     filtrer_gluten = st.checkbox("Gluten")
-    
+values = list(range(40, 90))
+Cho = st.select_slider("Your carb consumption (g/h), or let the default value:", options=values, value=60)
 st.divider()
 
 col4, col5, col6 = st.columns([1,1,1])
