@@ -18,6 +18,7 @@ df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openp
 
 st.image("RunBooster.png", width=1000) 
 st.divider()
+langue=st.radio("Language 👇", ["English", "Français"], horizontal=True)
 
 def load_data():
     df = pd.read_excel("produits Baouw.xlsx")  # Remplace par ton fichier
@@ -26,12 +27,24 @@ def load_data():
     return df
 df = load_data()
 
-
-# URL brute GitHub de ton fichier GPX
-
-
-race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
+race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC", "other"))
 cote = st.number_input("Your UTMB Index", min_value=1, value=500)
+
+
+if "other":
+    valid_index = st.checkbox("I entered a valid UTMB Index")
+    if valid_index:
+        distance = st.number_input("Your distance in km", format="%0.1f")
+        deniv = st.number_input("Your positive elevation m", format="%0f")
+        disteff=(distance+(deniv/100))
+        tpsestime=1000*(0.00000006964734390393*(disteff)*(disteff)*(disteff)*(disteff)-0.00006550491191697*(disteff)*(disteff)*(disteff)+0.020181800970007*(disteff)*(disteff)+2.20983621768921*(disteff))/cote
+    else:
+        st.write("Your estimated time 👇")
+        tpsh=st.number_input("Hours", min_value=0)
+        tpsm=st.number_input("Minutes", min_value=0, max_value=59)
+        tpsestime=(tpsh*60)+tpsm
+
+
 
 if race == "UTMB":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
@@ -53,9 +66,6 @@ if race == "UTMB":
         {"nom": "La Flégère", "km": 159.5},
         {"nom": "Chamonix (Arrivée)", "km": 170.0}
     ]
-
-    
-
 
 @st.cache_data
 def parse_gpx_from_url(url):
@@ -92,9 +102,7 @@ for i in range(1, len(points)):
     d = geodesic((prev[0], prev[1]), (curr[0], curr[1])).meters / 1000
     distances.append(distances[-1] + d)
     elevations.append(curr[2])
-    cum_d_plus.append(
-        max(0, cum_d_plus[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d_plus[-1])
-    )
+    cum_d_plus.append(max(0, cum_d_plus[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d_plus[-1]))
 
 # Extraire altitude exacte aux km des ravitos (approximation)
 ravito_points = []
@@ -108,42 +116,30 @@ for r in ravitos:
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
-    x=distances,
-    y=elevations,
-    name='',
-    mode='lines',
-    showlegend=False,  # <-- ceci supprime la légende
+    x=distances, y=elevations, name='', mode='lines', showlegend=False,  # <-- ceci supprime la légende
     hovertemplate=(
         'Distance : %{x:.2f} km<br>' +
         'Altitude : %{y:.0f} m<br>' +
-        'D+ cumulé : %{customdata:.0f} m'
-    ),
-    customdata=[round(d, 1) for d in cum_d_plus],
-    line=dict(color='gray')
-))
+        'D+ cumulé : %{customdata:.0f} m'), customdata=[round(d, 1) for d in cum_d_plus], line=dict(color='gray')))
 
 # Ajouter les ravitos comme scatter avec annotations
-fig.add_trace(go.Scatter(
-    x=[r[0] for r in ravito_points],
-    y=[r[1] for r in ravito_points],
-    mode='markers+text',
-    name='Aid Station',
+fig.add_trace(go.Scatter(x=[r[0] for r in ravito_points], y=[r[1] for r in ravito_points], mode='markers+text', name='Aid Station',
     showlegend=False,  # <-- ceci supprime la légende
-    marker=dict(color='blue', size=8, symbol='circle'),
-    text=[r[2] for r in ravito_points],
-    textposition="top center",
-    hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'
-))
+    marker=dict(color='blue', size=8, symbol='circle'), text=[r[2] for r in ravito_points], textposition="top center", hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
 
-fig.update_layout(
-    title="Race profile and Aid stations",
-    xaxis_title="Distance (km)",
-    yaxis_title="Altitude (m)",
-    hovermode="x unified",
-    width=1000,
-    height=500
-    
-)
-
+fig.update_layout(title="Race profile and Aid stations", xaxis_title="Distance (km)", yaxis_title="Altitude (m)",
+    hovermode="x unified", width=1000, height=500)
 st.plotly_chart(fig, use_container_width=True)
+
+temp=st.checkbox("More than 20°C scheduled?")
+st.write("Intolerances?")
+filtrer_noix = st.checkbox("Nuts")
+filtrer_lactose = st.checkbox("Lactose")
+filtrer_gluten = st.checkbox("Gluten")
+
+prenom = st.text_input("First name")
+nom = st.text_input("Last name")
+email = st.text_input("E-mail")
+pays = st.text_input("Country")
+com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
