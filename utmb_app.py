@@ -131,8 +131,7 @@ fig.update_layout(title="Race profile and Aid stations", xaxis_title="Distance (
     hovermode="x unified", width=1000, height=500)
 st.plotly_chart(fig, use_container_width=True)
 
-temp=st.checkbox("More than 20°C scheduled?")
-
+temp=st.checkbox("More than 20°C scheduled")
 col0, col1, col2, col3 = st.columns([0.5, 0.5, 0.5, 1.8])  
 with col0:
     st.write("Intolérances ?")
