@@ -144,7 +144,7 @@ with col3:
     filtrer_gluten = st.checkbox("Gluten")
 values = list(range(40, 91))
 Cho = st.select_slider("Your carbs consumption (g/h), or let the default value:", options=values, value=60)
-typo = st.selectbox("Products you don't want", ("Bars", "Gels", "Energy Drinks", "Compotes", "Electrolytes"))
+typo = st.multiselect("Products you don't want", ["Bars", "Gels", "Energy Drinks", "Compotes", "Electrolytes"])
 st.divider()
 
 col4, col5, col6 = st.columns([1,1,1])
