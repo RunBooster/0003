@@ -31,7 +31,7 @@ race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ET
 cote = st.number_input("Your UTMB Index", min_value=1, value=500)
 
 
-if "other":
+if race == "other":
     valid_index = st.checkbox("I entered a valid UTMB Index")
     if valid_index:
         distance = st.number_input("Your distance in km", format="%0.1f")
