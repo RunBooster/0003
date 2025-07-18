@@ -143,9 +143,13 @@ with col2:
 with col3:
     filtrer_gluten = st.checkbox("Gluten")
 
-prenom = st.text_input("First name")
-nom = st.text_input("Last name")
+col4, col5, col6 = st.columns([1,1,1])
+with col4:
+    prenom = st.text_input("First name")
+with col5:
+    nom = st.text_input("Last name")
+with col6:
+    pays = st.text_input("Country")
 email = st.text_input("E-mail")
-pays = st.text_input("Country")
 com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
