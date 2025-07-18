@@ -142,6 +142,8 @@ with col2:
     filtrer_lactose = st.checkbox("Lactose")
 with col3:
     filtrer_gluten = st.checkbox("Gluten")
+    
+st.divider()
 
 col4, col5, col6 = st.columns([1,1,1])
 with col4:
