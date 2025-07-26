@@ -30,7 +30,7 @@ df = load_data()
 race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC", "other"))
 cote = st.number_input("Your UTMB Index", min_value=1, value=500)
 
-
+ravitos = []
 if race == "other":
     valid_index = st.checkbox("I entered a valid UTMB Index")
     if valid_index:
@@ -120,7 +120,6 @@ elif race == "ETC":
 
 tpsestimeh=tpsestime/60
 st.write('➜Estimated racing time:', int(tpsestime), 'minutes, either', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
-
 
 if race != "other":
     @st.cache_data
