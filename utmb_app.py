@@ -109,7 +109,7 @@ elif race == "MCC":
     ravitos = [{"nom": "Col de la Forclaz", "km": 7.7},
         {"nom": "Col de Balme", "km": 17.4},
         {"nom": "Argentière", "km": 28.3},
-        {"nom": "Chamonix (Arrivée)", "km": 40}]
+        {"nom": "Chamonix (Arrivée)", "km": 38.5}]
     tpsestime=-0.0000019286314478*(cote)*(cote)*(cote)+0.0044463631803*(cote)*(cote)-3.7343821057262*(cote)+1351.6425925073
 
 elif race == "ETC":
