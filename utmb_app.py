@@ -46,76 +46,76 @@ if race == "other":
 
 elif race == "UTMB":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
-    ravitos = [{"nom": "Les Houches", "km": 7.8},
-        {"nom": "Saint-Gervais", "km": 21.5},
-        {"nom": "Les Contamines", "km": 31.2},
-        {"nom": "La Balme", "km": 39.8},
-        {"nom": "Les Chapieux", "km": 50.9},
-        {"nom": "Lac Combal", "km": 68.0},
-        {"nom": "Checrouit", "km": 77.6},
-        {"nom": "Courmayeur", "km": 80.2},
-        {"nom": "Bertone", "km": 85.2},
-        {"nom": "Arnouvaz", "km": 97.4},
-        {"nom": "La Fouly", "km": 115.6},
-        {"nom": "Champex-Lac", "km": 127.2},
-        {"nom": "Trient", "km": 141.3},
-        {"nom": "Vallorcine", "km": 151.8},
-        {"nom": "La Flégère", "km": 159.5},
-        {"nom": "Chamonix (Arrivée)", "km": 170.0}]
+    ravitos = [{"nom": "Les Houches", "km": 7.8, "type": "L"},
+        {"nom": "Saint-Gervais", "km": 21.5, "type": "S"},
+        {"nom": "Les Contamines", "km": 31.2, "type": "S"},
+        {"nom": "La Balme", "km": 39.8, "type": "S"},
+        {"nom": "Les Chapieux", "km": 50.9, "type": "S"},
+        {"nom": "Lac Combal", "km": 68.0, "type": "S"},
+        {"nom": "Checrouit", "km": 77.6, "type": "L"},
+        {"nom": "Courmayeur", "km": 80.2, "type": "A"},
+        {"nom": "Bertone", "km": 85.2, "type": "L"},
+        {"nom": "Arnouvaz", "km": 97.4, "type": "S"},
+        {"nom": "La Fouly", "km": 115.6, "type": "S"},
+        {"nom": "Champex-Lac", "km": 127.2, "type": "S"},
+        {"nom": "Trient", "km": 141.3, "type": "S"},
+        {"nom": "Vallorcine", "km": 151.8, "type": "S"},
+        {"nom": "La Flégère", "km": 159.5, "type": "L"},
+        {"nom": "Chamonix (Arrivée)", "km": 170.0, "type": "A"}]
     tpsestime=-0.00000688788001739*(cote)*(cote)*(cote)+0.0182221182514*(cote)*(cote)-17.596971526978*(cote)+7337.2207789047
     
 elif race == "CCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/ccc.gpx"
-    ravitos = [{"nom": "Bertone", "km": 13.4},
-        {"nom": "Arnouvaz", "km": 25.9},
-        {"nom": "La Fouly", "km": 40.9},
-        {"nom": "Champex-Lac", "km": 54.7},
-        {"nom": "Trient", "km": 70.3},
-        {"nom": "Vallorcine", "km": 81.5},
-        {"nom": "La Flégère", "km": 92.2},
-        {"nom": "Chamonix (Arrivée)", "km": 99.0}]
+    ravitos = [{"nom": "Bertone", "km": 13.4, "type": "S"},
+        {"nom": "Arnouvaz", "km": 25.9, "type": "S"},
+        {"nom": "La Fouly", "km": 40.9, "type": "S"},
+        {"nom": "Champex-Lac", "km": 54.7, "type": "S"},
+        {"nom": "Trient", "km": 70.3, "type": "S"},
+        {"nom": "Vallorcine", "km": 81.5, "type": "S"},
+        {"nom": "La Flégère", "km": 92.2, "type": "L"},
+        {"nom": "Chamonix (Arrivée)", "km": 99.0, "type": "A"}]
     tpsestime=-0.0000035772693135*(cote)*(cote)*(cote)+0.0094696502843*(cote)*(cote)-9.1536878738006*(cote)+3822.0987443797
 
 elif race == "OCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/occ.gpx"
-    ravitos = [{"nom": "Champex-Lac", "km": 7.6},
-        {"nom": "Trient", "km": 23.8},
-        {"nom": "Col de Balme", "km": 36.1},
-        {"nom": "Argentière", "km": 46.7},
-        {"nom": "La Flégère", "km": 51.7},
-        {"nom": "Chamonix (Arrivée)", "km": 58}]
+    ravitos = [{"nom": "Champex-Lac", "km": 7.6, "type": "L"},
+        {"nom": "Trient", "km": 23.8, "type": "S"},
+        {"nom": "Col de Balme", "km": 36.1, "type": "L"},
+        {"nom": "Argentière", "km": 46.7, "type": "S"},
+        {"nom": "La Flégère", "km": 51.7, "type": "L"},
+        {"nom": "Chamonix (Arrivée)", "km": 58, "type": "A"}]
     tpsestime=-0.0000018350782781*(cote)*(cote)*(cote)+0.0048352009471*(cote)*(cote)-4.6459913604367*(cote)+1925.1281152845
   
     
 elif race == "TDS":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/tds.gpx"
-    ravitos = [{"nom": "Checrouit", "km": 6.5},
-        {"nom": "Lac Combal", "km": 15.1},
-        {"nom": "La Thuile", "km": 35.5},
-        {"nom": "Seez", "km": 47.5},
-        {"nom": "Bourg St-Maurice", "km": 50.8},
-        {"nom": "Cormet de Roselend", "km": 67},
-        {"nom": "La Gittaz", "km": 75},
-        {"nom": "Beaufort", "km": 94.8},
-        {"nom": "Hauteluce", "km": 100.8},
-        {"nom": "Le Signal", "km": 116.6},
-        {"nom": "Les Contamines", "km": 125.5},
-        {"nom": "Les Houches", "km": 144.6},
-        {"nom": "Chamonix (Arrivée)", "km": 152.0}]
+    ravitos = [{"nom": "Checrouit", "km": 6.5, "type": "L"},
+        {"nom": "Lac Combal", "km": 15.1, "type": "S"},
+        {"nom": "La Thuile", "km": 35.5, "type": "S"},
+        {"nom": "Seez", "km": 47.5, "type": "L"},
+        {"nom": "Bourg St-Maurice", "km": 50.8, "type": "S"},
+        {"nom": "Cormet de Roselend", "km": 67, "type": "S"},
+        {"nom": "La Gittaz", "km": 75, "type": "L"},
+        {"nom": "Beaufort", "km": 94.8, "type": "A"},
+        {"nom": "Hauteluce", "km": 100.8, "type": "S"},
+        {"nom": "Le Signal", "km": 116.6, "type": "S"},
+        {"nom": "Les Contamines", "km": 125.5, "type": "S"},
+        {"nom": "Les Houches", "km": 144.6, "type": "S"},
+        {"nom": "Chamonix (Arrivée)", "km": 152.0, "type": "A"}]
     tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
 
 elif race == "MCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/mcc.gpx"
-    ravitos = [{"nom": "Col de la Forclaz", "km": 7.7},
-        {"nom": "Col de Balme", "km": 17.4},
-        {"nom": "Argentière", "km": 28.3},
-        {"nom": "Chamonix (Arrivée)", "km": 38.5}]
+    ravitos = [{"nom": "Col de la Forclaz", "km": 7.7, "type": "S"},
+        {"nom": "Col de Balme", "km": 17.4, "type": "L"},
+        {"nom": "Argentière", "km": 28.3, "type": "S"},
+        {"nom": "Chamonix (Arrivée)", "km": 38.5, "type": "A"}]
     tpsestime=-0.0000019286314478*(cote)*(cote)*(cote)+0.0044463631803*(cote)*(cote)-3.7343821057262*(cote)+1351.6425925073
 
 elif race == "ETC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/etc.gpx"
-    ravitos = [{"nom": "La Suche", "km": 6.5},
-        {"nom": "Courmayeur (Arrivée)", "km": 15}]
+    ravitos = [{"nom": "La Suche", "km": 6.5, "type": "L"},
+        {"nom": "Courmayeur (Arrivée)", "km": 15, "type": "A"}]
     tpsestime=-0.0000010535438858*(cote)*(cote)*(cote)+0.0023650968191*(cote)*(cote)-1.8805758670806*(cote)+622.66999220336
 
 tpsestimeh=tpsestime/60
@@ -179,17 +179,22 @@ if race != "other":
             'D+ cumulé : %{customdata:.0f} m'),
         customdata=[round(d, 1) for d in cum_d_plus],
         line=dict(color='gray')))
-    # Ajouter les ravitos comme scatter avec annotations
-    fig.add_trace(go.Scatter(
-        x=[r[0] for r in ravito_points],
-        y=[r[1] for r in ravito_points],
-        mode='markers+text',
-        name='Aid Station',
-        showlegend=False,
-        marker=dict(color='blue', size=8, symbol='circle'),
-        text=[r[2] for r in ravito_points],
-        textposition="top center",
-        hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
+    # Regrouper les ravitos par type
+type_to_color = {"A": "red", "S": "green", "L": "blue"}
+for t in ["A", "S", "L"]:
+    ravs = [r for r in ravitos if r.get("type", "L") == t]
+    if ravs:
+        # Ajouter les ravitos comme scatter avec annotations
+        fig.add_trace(go.Scatter(
+            x=[r["km"] for r in ravs],
+            y=[r["altitude"] for r in ravs],
+            mode='markers+text',
+            name='Aid Station',
+            showlegend=False,
+            marker=dict(color=type_to_color[t], size=8, symbol='circle'),
+            text=[r["nom"] for r in ravs],
+            textposition="top center",
+            hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
     fig.update_layout(
         title="Race profile and Aid stations",
         xaxis_title="Distance (km)",
