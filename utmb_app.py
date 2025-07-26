@@ -69,7 +69,7 @@ if race == "UTMB":
     tpsestime=-0,00000688788001739*(cote)*(cote)*(cote)+0,0182221182514*(cote)*(cote)-17,596971526978*(cote)+7337,2207789047
     
 if race == "CCC":
-    gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
+    gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/ccc.gpx"
     ravitos = [
         {"nom": "Bertone", "km": 13.7},
         {"nom": "Arnouvaz", "km": 26.6},
