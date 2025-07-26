@@ -71,14 +71,14 @@ if race == "UTMB":
 if race == "CCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/ccc.gpx"
     ravitos = [
-        {"nom": "Bertone", "km": 13.7},
-        {"nom": "Arnouvaz", "km": 26.6},
+        {"nom": "Bertone", "km": 13.4},
+        {"nom": "Arnouvaz", "km": 25.9},
         {"nom": "La Fouly", "km": 40.9},
         {"nom": "Champex-Lac", "km": 54.7},
-        {"nom": "Trient", "km": 71.3},
-        {"nom": "Vallorcine", "km": 83.3},
-        {"nom": "La Flégère", "km": 94.7},
-        {"nom": "Chamonix (Arrivée)", "km": 101.0}
+        {"nom": "Trient", "km": 70.3},
+        {"nom": "Vallorcine", "km": 81.5},
+        {"nom": "La Flégère", "km": 92.2},
+        {"nom": "Chamonix (Arrivée)", "km": 99.0}
     ]
     tpsestime=-0.0000035772693135*(cote)*(cote)*(cote)+0.0094696502843*(cote)*(cote)-9.1536878738006*(cote)+3822.0987443797
 
