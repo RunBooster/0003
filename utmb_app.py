@@ -179,22 +179,21 @@ if race != "other":
         customdata=[round(d, 1) for d in cum_d_plus],
         line=dict(color='gray')))
 
-# Définir les couleurs en fonction du type
-color_map = {"A": "red", "S": "green", "L": "blue"}
-fig.add_trace(go.Scatter(
-    x=[r["km"] for r in ravitos],
-    y=[r["altitude"] for r in ravitos],
-    mode='markers+text',
-    name='Aid station',
-    showlegend=False,
-    marker=dict(
-        color=[color_map.get(r.get("type", "L")) for r in ravitos],
-        size=8,
-        symbol='circle'
-    ),
-    text=[r["nom"] for r in ravitos],
-    textposition="top center",
-    hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
+    # Définir les couleurs en fonction du type
+    color_map = {"A": "red", "S": "green", "L": "blue"}
+    fig.add_trace(go.Scatter(
+        x=[r["km"] for r in ravitos],
+        y=[r["altitude"] for r in ravitos],
+        mode='markers+text',
+        name='Aid station',
+        showlegend=False,
+        marker=dict(
+            color=[color_map.get(r.get("type", "L")) for r in ravitos],
+            size=8,
+            symbol='circle'),
+        text=[r["nom"] for r in ravitos],
+        textposition="top center",
+        hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
 
     fig.update_layout(
         title="Race profile and Aid stations",
