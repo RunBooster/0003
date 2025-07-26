@@ -204,6 +204,7 @@ if race != "other":
         height=500)
 
     st.plotly_chart(fig, use_container_width=True)
+    st.write('🔴 Aid station with spare bag, 🟢 Aid station with solid food, 🔵 Aid station with drink supply only' )
 
 
 
