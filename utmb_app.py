@@ -44,9 +44,7 @@ if race == "other":
         tpsm=st.number_input("Minutes", min_value=0, max_value=59)
         tpsestime=(tpsh*60)+tpsm
 
-
-
-if race == "UTMB":
+elif race == "UTMB":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
     ravitos = [{"nom": "Les Houches", "km": 7.8},
         {"nom": "Saint-Gervais", "km": 21.5},
@@ -66,7 +64,7 @@ if race == "UTMB":
         {"nom": "Chamonix (Arrivée)", "km": 170.0}]
     tpsestime=-0.00000688788001739*(cote)*(cote)*(cote)+0.0182221182514*(cote)*(cote)-17.596971526978*(cote)+7337.2207789047
     
-if race == "CCC":
+elif race == "CCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/ccc.gpx"
     ravitos = [{"nom": "Bertone", "km": 13.4},
         {"nom": "Arnouvaz", "km": 25.9},
@@ -78,7 +76,7 @@ if race == "CCC":
         {"nom": "Chamonix (Arrivée)", "km": 99.0}]
     tpsestime=-0.0000035772693135*(cote)*(cote)*(cote)+0.0094696502843*(cote)*(cote)-9.1536878738006*(cote)+3822.0987443797
 
-if race == "OCC":
+elif race == "OCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/occ.gpx"
     ravitos = [{"nom": "Champex-Lac", "km": 7.6},
         {"nom": "Trient", "km": 23.8},
@@ -89,13 +87,13 @@ if race == "OCC":
     tpsestime=-0.0000018350782781*(cote)*(cote)*(cote)+0.0048352009471*(cote)*(cote)-4.6459913604367*(cote)+1925.1281152845
   
     
-if race == "TDS":
+elif race == "TDS":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/tds.gpx"
     ravitos = [{"nom": "Checrouit", "km": 6.5},
         {"nom": "Lac Combal", "km": 15.1},
         {"nom": "La Thuile", "km": 35.5},
-        {"nom": "Seez", "km": 48.5},
-        {"nom": "Bourg St-Maurice", "km": 51.8},
+        {"nom": "Seez", "km": 47.5},
+        {"nom": "Bourg St-Maurice", "km": 50.8},
         {"nom": "Cormet de Roselend", "km": 67},
         {"nom": "La Gittaz", "km": 75},
         {"nom": "Beaufort", "km": 94.8},
@@ -104,9 +102,9 @@ if race == "TDS":
         {"nom": "Les Contamines", "km": 125.5},
         {"nom": "Les Houches", "km": 144.6},
         {"nom": "Chamonix (Arrivée)", "km": 152.0}]
-tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
+    tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
 
-if race == "MCC":
+elif race == "MCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/mcc.gpx"
     ravitos = [{"nom": "Col de la Forclaz", "km": 7.7},
         {"nom": "Col de Balme", "km": 17.4},
@@ -114,7 +112,7 @@ if race == "MCC":
         {"nom": "Chamonix (Arrivée)", "km": 40}]
     tpsestime=-0.0000019286314478*(cote)*(cote)*(cote)+0.0044463631803*(cote)*(cote)-3.7343821057262*(cote)+1351.6425925073
 
-if race == "ETC":
+elif race == "ETC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/etc.gpx"
     ravitos = [{"nom": "La Suche", "km": 6.5},
         {"nom": "Courmayeur (Arrivée)", "km": 15}]
