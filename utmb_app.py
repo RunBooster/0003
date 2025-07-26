@@ -14,7 +14,10 @@ import requests
 
 produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
+DATA_FILE = "private_user_data.csv"
 
+if not os.path.exists(DATA_FILE):
+    pd.DataFrame(columns=["prenom", "nom", "pays", "email"]).to_csv(DATA_FILE, index=False)
 
 st.image("RunBooster.png", width=1000) 
 st.divider()
@@ -233,3 +236,8 @@ with col6:
 email = st.text_input("E-mail")
 com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
+if com:
+    new_row = pd.DataFrame([{"prenom": prenom, "nom": nom, "pays": pays, "email": email}])
+        df = pd.read_csv(DATA_FILE)
+        df = pd.concat([df, new_row], ignore_index=True)
+        df.to_csv(DATA_FILE, index=False)
