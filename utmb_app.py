@@ -61,7 +61,7 @@ elif race == "UTMB":
         {"nom": "Trient", "km": 141.3, "type": "S"},
         {"nom": "Vallorcine", "km": 151.8, "type": "S"},
         {"nom": "La Flégère", "km": 159.5, "type": "L"},
-        {"nom": "Chamonix (Arrivée)", "km": 170.0, "type": "A"}]
+        {"nom": "Chamonix", "km": 170.0, "type": "A"}]
     tpsestime=-0.00000688788001739*(cote)*(cote)*(cote)+0.0182221182514*(cote)*(cote)-17.596971526978*(cote)+7337.2207789047
     
 elif race == "CCC":
@@ -73,7 +73,7 @@ elif race == "CCC":
         {"nom": "Trient", "km": 70.3, "type": "S"},
         {"nom": "Vallorcine", "km": 81.5, "type": "S"},
         {"nom": "La Flégère", "km": 92.2, "type": "L"},
-        {"nom": "Chamonix (Arrivée)", "km": 99.0, "type": "A"}]
+        {"nom": "Chamonix", "km": 99.0, "type": "A"}]
     tpsestime=-0.0000035772693135*(cote)*(cote)*(cote)+0.0094696502843*(cote)*(cote)-9.1536878738006*(cote)+3822.0987443797
 
 elif race == "OCC":
@@ -83,7 +83,7 @@ elif race == "OCC":
         {"nom": "Col de Balme", "km": 36.1, "type": "L"},
         {"nom": "Argentière", "km": 46.7, "type": "S"},
         {"nom": "La Flégère", "km": 51.7, "type": "L"},
-        {"nom": "Chamonix (Arrivée)", "km": 58, "type": "A"}]
+        {"nom": "Chamonix", "km": 58, "type": "A"}]
     tpsestime=-0.0000018350782781*(cote)*(cote)*(cote)+0.0048352009471*(cote)*(cote)-4.6459913604367*(cote)+1925.1281152845
   
     
@@ -101,7 +101,7 @@ elif race == "TDS":
         {"nom": "Le Signal", "km": 116.6, "type": "S"},
         {"nom": "Les Contamines", "km": 125.5, "type": "S"},
         {"nom": "Les Houches", "km": 144.6, "type": "S"},
-        {"nom": "Chamonix (Arrivée)", "km": 152.0, "type": "A"}]
+        {"nom": "Chamonix", "km": 152.0, "type": "A"}]
     tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
 
 elif race == "MCC":
@@ -109,13 +109,13 @@ elif race == "MCC":
     ravitos = [{"nom": "Col de la Forclaz", "km": 7.7, "type": "S"},
         {"nom": "Col de Balme", "km": 17.4, "type": "L"},
         {"nom": "Argentière", "km": 28.3, "type": "S"},
-        {"nom": "Chamonix (Arrivée)", "km": 38.5, "type": "A"}]
+        {"nom": "Chamonix", "km": 38.5, "type": "A"}]
     tpsestime=-0.0000019286314478*(cote)*(cote)*(cote)+0.0044463631803*(cote)*(cote)-3.7343821057262*(cote)+1351.6425925073
 
 elif race == "ETC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/etc.gpx"
     ravitos = [{"nom": "La Suche", "km": 6.5, "type": "L"},
-        {"nom": "Courmayeur (Arrivée)", "km": 15, "type": "A"}]
+        {"nom": "Courmayeur", "km": 15, "type": "A"}]
     tpsestime=-0.0000010535438858*(cote)*(cote)*(cote)+0.0023650968191*(cote)*(cote)-1.8805758670806*(cote)+622.66999220336
 
 tpsestimeh=tpsestime/60
@@ -175,7 +175,7 @@ if race != "other":
         hovertemplate=(
             'Distance : %{x:.2f} km<br>' +
             'Altitude : %{y:.0f} m<br>' +
-            'D+ cumulé : %{customdata:.0f} m'),
+            'Positive elevation : %{customdata:.0f} m'),
         customdata=[round(d, 1) for d in cum_d_plus],
         line=dict(color='gray')))
 
