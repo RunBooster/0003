@@ -66,6 +66,25 @@ if race == "UTMB":
         {"nom": "La Flégère", "km": 159.5},
         {"nom": "Chamonix (Arrivée)", "km": 170.0}
     ]
+    tpsestime=-0,00000688788001739*(cote)*(cote)*(cote)+0,0182221182514*(cote)*(cote)-17,596971526978*(cote)+7337,2207789047
+    
+if race == "CCC":
+    gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/utmb.gpx"
+    ravitos = [
+        {"nom": "Bertone", "km": 13.7},
+        {"nom": "Arnouvaz", "km": 26.6},
+        {"nom": "La Fouly", "km": 40.9},
+        {"nom": "Champex-Lac", "km": 54.7},
+        {"nom": "Trient", "km": 71.3},
+        {"nom": "Vallorcine", "km": 83.3},
+        {"nom": "La Flégère", "km": 94.7},
+        {"nom": "Chamonix (Arrivée)", "km": 101.0}
+    ]
+    tpsestime=-0,0000035772693135*(cote)*(cote)*(cote)+0,0094696502843*(cote)*(cote)-9,1536878738006*(cote)+3822,0987443797
+
+tpsestimeh=tpsestime/60
+st.write('➜Temps de course estimé:', int(tpsestime), 'minutes, soit', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
+
 
 @st.cache_data
 def parse_gpx_from_url(url):
