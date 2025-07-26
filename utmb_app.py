@@ -122,69 +122,85 @@ tpsestimeh=tpsestime/60
 st.write('➜Temps de course estimé:', int(tpsestime), 'minutes, soit', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
 
 
-@st.cache_data
-def parse_gpx_from_url(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    gpx = gpxpy.parse(response.text)
+if race != "other":
+    @st.cache_data
+    def parse_gpx_from_url(url):
+        response = requests.get(url)
+        response.raise_for_status()
+        gpx = gpxpy.parse(response.text)
 
-    points = [
-        (p.latitude, p.longitude, p.elevation)
-        for trk in gpx.tracks
-        for seg in trk.segments
-        for p in seg.points
-        if None not in (p.latitude, p.longitude, p.elevation)
-    ]
-    return points
+        points = [
+            (p.latitude, p.longitude, p.elevation)
+            for trk in gpx.tracks
+            for seg in trk.segments
+            for p in seg.points
+            if None not in (p.latitude, p.longitude, p.elevation)]
+        return points
 
-try:
-    points = parse_gpx_from_url(gpx_url)
-    if not points:
-        st.warning("Aucun point trouvé dans le fichier GPX.")
+    try:
+        points = parse_gpx_from_url(gpx_url)
+        if not points:
+            st.warning("Aucun point trouvé dans le fichier GPX.")
+            st.stop()
+    except Exception as e:
+        st.error(f"Erreur lors du chargement : {e}")
         st.stop()
-except Exception as e:
-    st.error(f"Erreur lors du chargement : {e}")
-    st.stop()
 
-# Calcul des distances et dénivelé
-distances = [0.0]
-elevations = [points[0][2]]
-cum_d_plus = [0.0]
+    # Calcul des distances et dénivelé
+    distances = [0.0]
+    elevations = [points[0][2]]
+    cum_d_plus = [0.0]
 
-for i in range(1, len(points)):
-    prev = points[i - 1]
-    curr = points[i]
-    d = geodesic((prev[0], prev[1]), (curr[0], curr[1])).meters / 1000
-    distances.append(distances[-1] + d)
-    elevations.append(curr[2])
-    cum_d_plus.append(max(0, cum_d_plus[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d_plus[-1]))
+    for i in range(1, len(points)):
+        prev = points[i - 1]
+        curr = points[i]
+        d = geodesic((prev[0], prev[1]), (curr[0], curr[1])).meters / 1000
+        distances.append(distances[-1] + d)
+        elevations.append(curr[2])
+        cum_d_plus.append(
+            max(0, cum_d_plus[-1] + (curr[2] - prev[2]) if curr[2] > prev[2] else cum_d_plus[-1]))
+    # Extraire altitude exacte aux km des ravitos (approximation)
+    ravito_points = []
+    for r in ravitos:
+        idx = min(range(len(distances)), key=lambda i: abs(distances[i] - r["km"]))
+        r["altitude"] = elevations[idx]
+        ravito_points.append((r["km"], elevations[idx], r["nom"]))
+    # Tracer le profil
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=distances,
+        y=elevations,
+        name='',
+        mode='lines',
+        showlegend=False,
+        hovertemplate=(
+            'Distance : %{x:.2f} km<br>' +
+            'Altitude : %{y:.0f} m<br>' +
+            'D+ cumulé : %{customdata:.0f} m'),
+        customdata=[round(d, 1) for d in cum_d_plus],
+        line=dict(color='gray')))
+    # Ajouter les ravitos comme scatter avec annotations
+    fig.add_trace(go.Scatter(
+        x=[r[0] for r in ravito_points],
+        y=[r[1] for r in ravito_points],
+        mode='markers+text',
+        name='Aid Station',
+        showlegend=False,
+        marker=dict(color='blue', size=8, symbol='circle'),
+        text=[r[2] for r in ravito_points],
+        textposition="top center",
+        hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
+    fig.update_layout(
+        title="Race profile and Aid stations",
+        xaxis_title="Distance (km)",
+        yaxis_title="Altitude (m)",
+        hovermode="x unified",
+        width=1000,
+        height=500)
 
-# Extraire altitude exacte aux km des ravitos (approximation)
-ravito_points = []
-for r in ravitos:
-    # Chercher l’index du point le plus proche de la distance
-    idx = min(range(len(distances)), key=lambda i: abs(distances[i] - r["km"]))
-    r["altitude"] = elevations[idx]
-    ravito_points.append((r["km"], elevations[idx], r["nom"]))
+    st.plotly_chart(fig, use_container_width=True)
 
-# Tracer le profil
-fig = go.Figure()
 
-fig.add_trace(go.Scatter(
-    x=distances, y=elevations, name='', mode='lines', showlegend=False,  # <-- ceci supprime la légende
-    hovertemplate=(
-        'Distance : %{x:.2f} km<br>' +
-        'Altitude : %{y:.0f} m<br>' +
-        'D+ cumulé : %{customdata:.0f} m'), customdata=[round(d, 1) for d in cum_d_plus], line=dict(color='gray')))
-
-# Ajouter les ravitos comme scatter avec annotations
-fig.add_trace(go.Scatter(x=[r[0] for r in ravito_points], y=[r[1] for r in ravito_points], mode='markers+text', name='Aid Station',
-    showlegend=False,  # <-- ceci supprime la légende
-    marker=dict(color='blue', size=8, symbol='circle'), text=[r[2] for r in ravito_points], textposition="top center", hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
-
-fig.update_layout(title="Race profile and Aid stations", xaxis_title="Distance (km)", yaxis_title="Altitude (m)",
-    hovermode="x unified", width=1000, height=500)
-st.plotly_chart(fig, use_container_width=True)
 
 temp=st.checkbox("More than 20°C scheduled")
 col0, col1, col2, col3 = st.columns([0.5, 0.5, 0.5, 1.8])  
