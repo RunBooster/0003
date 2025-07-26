@@ -81,29 +81,29 @@ if race == "CCC":
 if race == "OCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/occ.gpx"
     ravitos = [{"nom": "Champex-Lac", "km": 7.6},
-        {"nom": "Trient", "km": 24.3},
-        {"nom": "Col de Balme", "km": 34.2},
-        {"nom": "Argentière", "km": 45.4},
-        {"nom": "La Flégère", "km": 50.7},
-        {"nom": "Chamonix (Arrivée)", "km": 57.7}]
+        {"nom": "Trient", "km": 23.8},
+        {"nom": "Col de Balme", "km": 36.1},
+        {"nom": "Argentière", "km": 46.7},
+        {"nom": "La Flégère", "km": 51.7},
+        {"nom": "Chamonix (Arrivée)", "km": 58}]
     tpsestime=-0.0000018350782781*(cote)*(cote)*(cote)+0.0048352009471*(cote)*(cote)-4.6459913604367*(cote)+1925.1281152845
+    tpsestime=-0,0000018350782781*(cote)*(cote)*(cote)+0,0048352009471*(cote)*(cote)-4,6459913604367*(cote)+1925,1281152845
     
 if race == "TDS":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/tds.gpx"
-    ravitos = [{"nom": "Les Houches", "km": 7.8},
-        {"nom": "Checrouit", "km": 6.5},
-        {"nom": "Lac Combal", "km": 14},
+    ravitos = [{"nom": "Checrouit", "km": 6.5},
+        {"nom": "Lac Combal", "km": 15.1},
         {"nom": "La Thuile", "km": 35.5},
-        {"nom": "Seez", "km": 46.5},
-        {"nom": "Bourg St-Maurice", "km": 49.8},
-        {"nom": "Cormet de Roselend", "km": 64.9},
-        {"nom": "La Gittaz", "km": 72.4},
-        {"nom": "Beaufort", "km": 91.2},
-        {"nom": "Hauteluce", "km": 97.8},
-        {"nom": "Le Signal", "km": 114.6},
-        {"nom": "Les Contamines", "km": 122.3},
-        {"nom": "Les Houches", "km": 140.7},
-        {"nom": "Chamonix (Arrivée)", "km": 148.0}]
+        {"nom": "Seez", "km": 48.5},
+        {"nom": "Bourg St-Maurice", "km": 51.8},
+        {"nom": "Cormet de Roselend", "km": 67},
+        {"nom": "La Gittaz", "km": 75},
+        {"nom": "Beaufort", "km": 94.8},
+        {"nom": "Hauteluce", "km": 100.8},
+        {"nom": "Le Signal", "km": 116.6},
+        {"nom": "Les Contamines", "km": 125.5},
+        {"nom": "Les Houches", "km": 144.6},
+        {"nom": "Chamonix (Arrivée)", "km": 152.0}]
 tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
 
 if race == "MCC":
