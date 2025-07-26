@@ -87,7 +87,7 @@ if race == "OCC":
         {"nom": "La Flégère", "km": 51.7},
         {"nom": "Chamonix (Arrivée)", "km": 58}]
     tpsestime=-0.0000018350782781*(cote)*(cote)*(cote)+0.0048352009471*(cote)*(cote)-4.6459913604367*(cote)+1925.1281152845
-    tpsestime=-0,0000018350782781*(cote)*(cote)*(cote)+0,0048352009471*(cote)*(cote)-4,6459913604367*(cote)+1925,1281152845
+  
     
 if race == "TDS":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/tds.gpx"
