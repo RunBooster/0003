@@ -178,22 +178,24 @@ if race != "other":
             'D+ cumulé : %{customdata:.0f} m'),
         customdata=[round(d, 1) for d in cum_d_plus],
         line=dict(color='gray')))
-    # Regrouper les ravitos par type
-type_to_color = {"A": "red", "S": "green", "L": "blue"}
-for t in ["A", "S", "L"]:
-    ravs = [r for r in ravitos if r.get("type", "L") == t]
-    if ravs:
-        # Ajouter les ravitos comme scatter avec annotations
-        fig.add_trace(go.Scatter(
-            x=[r["km"] for r in ravs],
-            y=[r["altitude"] for r in ravs],
-            mode='markers+text',
-            name='Aid Station',
-            showlegend=False,
-            marker=dict(color=type_to_color[t], size=8, symbol='circle'),
-            text=[r["nom"] for r in ravs],
-            textposition="top center",
-            hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
+
+# Définir les couleurs en fonction du type
+color_map = {"A": "red", "S": "green", "L": "blue"}
+fig.add_trace(go.Scatter(
+    x=[r["km"] for r in ravitos],
+    y=[r["altitude"] for r in ravitos],
+    mode='markers+text',
+    name='Aid station',
+    showlegend=False,
+    marker=dict(
+        color=[color_map.get(r.get("type", "L")) for r in ravitos],
+        size=8,
+        symbol='circle'
+    ),
+    text=[r["nom"] for r in ravitos],
+    textposition="top center",
+    hovertemplate='%{text}<br>Km : %{x:.1f}<br>Altitude : %{y:.0f} m'))
+
     fig.update_layout(
         title="Race profile and Aid stations",
         xaxis_title="Distance (km)",
