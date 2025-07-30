@@ -131,7 +131,7 @@ elif race == "ETC":
     tpsestime=-0.0000010535438858*(cote)*(cote)*(cote)+0.0023650968191*(cote)*(cote)-1.8805758670806*(cote)+622.66999220336
 
 tpsestimeh=tpsestime/60
-st.write('➜Estimated racing time:', int(tpsestime), 'minutes, either', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
+st.write('➜Estimated racing time:', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
 
 if race != "other":
     @st.cache_data
