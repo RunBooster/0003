@@ -247,6 +247,6 @@ com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
 if com:
     new_row = pd.DataFrame([{"prenom": prenom, "nom": nom, "pays": pays, "email": email}])
-        df = pd.read_csv(DATA_FILE)
-        df = pd.concat([df, new_row], ignore_index=True)
-        df.to_csv(DATA_FILE, index=False)
+    df = pd.read_csv(DATA_FILE)
+    df = pd.concat([df, new_row], ignore_index=True)
+    df.to_csv(DATA_FILE, index=False)
