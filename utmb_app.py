@@ -272,6 +272,7 @@ def construire_plan_nutritionnel(tpsestimeh, Cho):
         produits_heure = []
         glucides = 0
             # Produit selon ordre C > BA > G
+        groupe=[]
         for groupe in ordre:
             if not groupe.empty:
                 prod = groupe.sample(1).iloc[0]
