@@ -341,7 +341,7 @@ if derniere_heure > 0:
             sodium_tot+=produit.Sodium*1000
             caf_tot+=produit.Caf
         
-plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
+plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
 
 
      
