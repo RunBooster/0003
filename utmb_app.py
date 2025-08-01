@@ -289,8 +289,11 @@ for heure in np.arange(0, heures_pleines, 1):
     else:
         produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
         
-   
-    produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
+    if len(produits_filtrés) >= 2:
+        produits_suivants = produits_filtrés.sample(2)
+    else:
+        produits_suivants = produits_filtrés  # Si moins de 2 produits, on prend tout ce qui est dispo
+    #produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
     produits_text = []
     glucide_tot=0
     sodium_tot=0
