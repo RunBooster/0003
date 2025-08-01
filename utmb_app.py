@@ -277,7 +277,7 @@ for heure in np.arange(0, heures_pleines, 1):
     x_1, unite = ajuster_x(glucide_1, 38)
     glucide_restant = Cho - (x_1 * glucide_1)
 
-    if heure > 4 and heure % 4 == 0: #on met du salé toutes les 4 heures 
+    if heure > 3 and heure % 4 == 0: #on met du salé toutes les 4 heures 
         produits_filtrés = df[(df["Ref"].isin(["CS", "BAS"]))]
         if produits_filtrés["Ref"].isin(["CS", "BAS"]).sum() == 0:  # Vérifie si produits salés sont absents
             produits_supplémentaires = df[(df["Ref"].isin(["BA", "C", "G"])) & (df["Caf"] == 0)]
