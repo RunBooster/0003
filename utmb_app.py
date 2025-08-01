@@ -293,7 +293,6 @@ for heure in np.arange(0, heures_pleines, 1):
         produits_suivants = produits_filtrés.sample(2)
     else:
         produits_suivants = produits_filtrés  # Si moins de 2 produits, on prend tout ce qui est dispo
-    #produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
     produits_text = []
     glucide_tot=0
     sodium_tot=0
@@ -330,18 +329,18 @@ if derniere_heure > 0:
     glucide_restant = (Cho * derniere_heure) - (x_1 * glucide_1)
     produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"]))].sample(1)
     
-    produits_text = []
-    for produit in produits_suivants.itertuples():
-        if glucide_restant <= 0:
-            break
-        if produit.Glucide <= glucide_restant:
-            produits_text.append(f"+ 1 {produit.Nom}")
-            glucide_restant -= produit.Glucide
-            glucide_tot+=produit.Glucide
-            sodium_tot+=produit.Sodium*1000
-            caf_tot+=produit.Caf
+produits_text = []
+for produit in produits_suivants.itertuples():
+    if glucide_restant <= 0:
+        break
+    if produit.Glucide <= glucide_restant:
+        produits_text.append(f"+ 1 {produit.Nom}")
+        glucide_restant -= produit.Glucide
+        glucide_tot+=produit.Glucide
+        sodium_tot+=produit.Sodium*1000
+        caf_tot+=produit.Caf
         
-plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
+plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
 
 
      
@@ -374,4 +373,3 @@ if st.button("Submit"):
         #st.markdown(f"### Heure {bloc['heure']} (Total Glucides : {bloc['glucides']}g)")
         #for p in bloc['produits']:
             #st.markdown(f"- {p['Nom']} | Ref: {p['Ref']} | Glucides: {p['Glucide']}g | Caf: {p['Caf']}")
-
