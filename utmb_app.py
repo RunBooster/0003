@@ -312,7 +312,7 @@ for heure in np.arange(0, heures_pleines, 1):
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
-    plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
+    plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {.join(produits_text)}.")
 
 if derniere_heure > 0:
     glucide_tot=0
