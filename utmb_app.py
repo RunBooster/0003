@@ -14,6 +14,7 @@ import requests
 from collections import Counter
 
 compteur_produits = Counter()
+glucides_par_nom = {}
 
 proposition = []
 
@@ -306,6 +307,7 @@ for heure in np.arange(0, heures_pleines, 1):
         if produit.Glucide <= glucide_restant+10:
             produits_text.append(f"+ 1 {produit.Nom}")
             compteur_produits[produit.Nom] += 1
+            glucides_par_nom[produit.Nom] = produit.Glucide
             glucide_restant -= produit.Glucide
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium
@@ -314,6 +316,7 @@ for heure in np.arange(0, heures_pleines, 1):
     valeurs_possibles = [0.5, 1, 1.5]
     x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
     compteur_produits[produit_1.Nom] += x_1
+    glucides_par_nom[produit_1.Nom] = produit_1.Glucide
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
@@ -329,6 +332,7 @@ if derniere_heure > 0:
     valeurs_possibles = [0.5, 1, 1.5]
     x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
     compteur_produits[produit_1.Nom] += x_1
+    glucides_par_nom[produit_1.Nom] = produit_1.Glucide
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
@@ -342,6 +346,7 @@ for produit in produits_suivants.itertuples():
     if produit.Glucide <= glucide_restant:
         produits_text.append(f"+ 1 {produit.Nom}")
         compteur_produits[produit.Nom] += 1
+        glucides_par_nom[produit.Nom] = produit.Glucide
         glucide_restant -= produit.Glucide
         glucide_tot+=produit.Glucide
         sodium_tot+=produit.Sodium*1000
@@ -370,8 +375,15 @@ if st.button("Submit"):
     #df.to_csv(DATA_FILE, index=False)
     resume_text = []
     for nom, count in compteur_produits.items():
-        total = round(count) if count % 1 == 0 else round(count, 1)
-        resume_text.append(f"{total} × {nom}")
+        glucide_unitaire = glucides_par_nom.get(nom, 0)
+
+        if nom == "Drink Mix":
+            total_glucides = round(count * glucide_unitaire)
+            resume_text.append(f"{total_glucides} g of {nom}")
+        else:
+            total = round(count) if count % 1 == 0 else round(count, 1)
+            resume_text.append(f"{total} × {nom}")
+            
     plan.append(f"\n🧾 To take : {', '.join(resume_text)}.")
     
     if plan:
