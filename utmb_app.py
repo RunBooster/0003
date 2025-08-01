@@ -285,8 +285,8 @@ for heure in np.arange(0, heures_pleines, 1):
             produits_supplémentaires = df[(df["Ref"].isin(["BA", "C", "G"])) & (df["Caf"] == 0)]
             produits_filtrés = pd.concat([produits_filtrés, produits_supplémentaires])
     elif heure == 0 or heure == hcaf:
-        produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] > 1)]
-        hcaf=hcaf+4
+        produits_filtrés = df[(df["Caf"] > 1)]
+        hcaf=hcaf+5
         if produits_filtrés["Ref"].isin(["G", "C", "BA"]).sum() == 0:  # Vérifie si produits caféinés sont absents
             produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"]))]
     else:
@@ -363,7 +363,7 @@ if st.button("Submit"):
     #df = pd.concat([df, new_row], ignore_index=True)
     #df.to_csv(DATA_FILE, index=False)
     if plan:
-         st.write("### Plan nutritionnel généré :")
+         st.write("### Nutritional plan generated :")
          for ligne in proposition:
               st.write(ligne)
          for ligne in plan:
