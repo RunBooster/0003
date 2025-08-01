@@ -263,47 +263,93 @@ df_B = df[df['Ref'] == 'B']
 df_caf = df[df['Caf'] != 0]
 
 #Chosolide=Cho-38
+plan = []
+def ajuster_x(glucide, min_cible, max_cible):
+    if min_cible <= glucide <= max_cible:  # Vérifie si 1 sachet est dans la cible
+        return 1, "sachet"
+    elif min_cible <= 0.5 * glucide <= max_cible:  # Vérifie si 0.5 sachet fonctionne
+        return 0.5, "sachet"
+    else:
+        return 1, "sachet"  # Si rien ne marche, prendre un sachet entier (mieux vaut trop que pas assez)
+        
+heures_pleines = int(tpsestimeh)
+derniere_heure = tpsestimeh % 1
+produit_1 = None
+hcaf=0
+hsel=4
+for heure in np.arange(0, heures_pleines, 1):
+    produit_1 = df[(df["Ref"].isin(["B"]))].sample(1).iloc[0]
+    glucide_1 = produit_1["Glucide"]
+    x_1, unite = ajuster_x(glucide_1, 38)
+    glucide_restant = Cho - (x_1 * glucide_1)
 
-def construire_plan_nutritionnel(tpsestimeh, Cho):
-    plan = []
-    ordre = [df_C, df_BA, df_G, df_caf, df_prodsel]  # Ordre de priorité
-    tpsestimeh = int(tpsestimeh)
-    for heure in range(1, tpsestimeh + 1):
-        produits_heure = []
-        glucides = 0
-            # Produit selon ordre C > BA > G
-        groupe=[]
-        for groupe in ordre:
-            if not groupe.empty:
-                prod = groupe.sample(1).iloc[0]
-                produits_heure.append(prod)
-                glucides += prod['Glucide']
-                break
+    if heure > 4 and heure % 4 == 0: #on met du salé toutes les 4 heures 
+        produits_filtrés = df[(df["Ref"].isin(["CS", "BAS"]))]
+        if produits_filtrés["Ref"].isin(["CS", "BAS"]).sum() == 0:  # Vérifie si produits salés sont absents
+            produits_supplémentaires = df[(df["Ref"].isin(["BA", "C", "G"])) & (df["Caf"] == 0)]
+            produits_filtrés = pd.concat([produits_filtrés, produits_supplémentaires])
+    elif heure == 0 or heure == hcaf:
+        produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] > 1)]
+        hcaf=hcaf+4
+        if produits_filtrés["Ref"].isin(["G", "C", "BA"]).sum() == 0:  # Vérifie si produits caféinés sont absents
+            produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"]))]
+    else:
+        produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
+        
+    if len(produits_filtrés) >= 2:
+        produits_suivants = produits_filtrés.sample(2)
+    else:
+        produits_suivants = produits_filtrés  # Si moins de 2 produits, on prend tout ce qui est dispo
+    produits_text = []
+    glucide_tot=0
+    sodium_tot=0
+    caf_tot=0
+    for produit in produits_suivants.itertuples():
+        if glucide_restant <= 0:
+            break
+        if produit.Glucide <= glucide_restant+10:
+            produits_text.append(f"+ 1 {produit.Nom} de la marque {produit.Marque}")
+            glucide_restant -= produit.Glucide
+            glucide_tot+=produit.Glucide
+            sodium_tot+=produit.Sodium
+            caf_tot+=produit.Caf
+    x_brut = (Cho - glucide_tot) / glucide_1
+    valeurs_possibles = [0.5, 1, 1.5]
+    x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+    glucide_tot+=produit_1.Glucide*x_1
+    sodium_tot+=produit_1.Sodium*x_1
+    caf_tot+=produit_1.Caf*x_1
+    plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
 
-        # -- Complément avec B pour atteindre Cho
-        manque = Cho - glucides
-        if manque > 0:
-            # Choix du produit B le plus proche en glucide manquant
-            prod_B = df_B.sample(1).iloc[0]
-            glucide_1 = prod_B["Glucide"]
-            x_brut = (Cho - glucides) / glucide_1
-            valeurs_possibles = [0.5, 1, 2, 3]
-            x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
-            produits_heure.append(prod_B)
-            glucides+=prod_B.Glucide*x_1
-            
-
-        plan.append({'heure': heure, 'produits': produits_heure, 'glucides': glucides})
-
-    # -- Vérification et ajustement des blocs de 2h
-    for i in range(0, len(plan) - 1, 2):
-        total_2h = plan[i]['glucides'] + plan[i+1]['glucides']
-        if abs(total_2h - 2 * Cho) > 8:
-            # Ajustement si trop éloigné (optionnel)
-            pass  # Tu peux rajouter une logique ici si tu veux
-
-    return plan
+if derniere_heure > 0:
+    eau=derniere_heure*eau
+    glucide_tot=0
+    sodium_tot=0
+    caf_tot=0
+    produit_1 = df[df["Ref"] == "B"].sample(1).iloc[0]
+    glucide_1 = produit_1["Glucide"]
+    x_1, unite = ajuster_x(glucide_1, 30 * derniere_heure, 40 * derniere_heure)
+    glucide_tot+=produit_1.Glucide*x_1
+    sodium_tot+=produit_1.Sodium*x_1
+    caf_tot+=produit_1.Caf*x_1
+    glucide_restant = (Cho * derniere_heure) - (x_1 * glucide_1)
+    produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"]))].sample(1)
     
+produits_text = []
+for produit in produits_suivants.itertuples():
+    if glucide_restant <= 0:
+        break
+    if produit.Glucide <= glucide_restant:
+        produits_text.append(f"+ 1 {produit.Nom} de la marque {produit.Marque}")
+        glucide_restant -= produit.Glucide
+        glucide_tot+=produit.Glucide
+        sodium_tot+=produit.Sodium*1000
+        caf_tot+=produit.Caf
+        
+plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
+
+
+     
 
 
 col4, col5, col6 = st.columns([1,1,1])
@@ -321,14 +367,16 @@ if st.button("Submit"):
     #df = pd.read_csv(DATA_FILE)
     #df = pd.concat([df, new_row], ignore_index=True)
     #df.to_csv(DATA_FILE, index=False)
+    if plan:
+         st.write("### Plan nutritionnel généré :")
+         for ligne in proposition:
+              st.write(ligne)
+         for ligne in plan:
+              st.write(ligne)
     
-    for ligne in proposition:
-        st.write(ligne)
-        
-    plan = construire_plan_nutritionnel(tpsestimeh, Cho)
     
-    for bloc in plan:
-        st.markdown(f"### Heure {bloc['heure']} (Total Glucides : {bloc['glucides']}g)")
-        for p in bloc['produits']:
-            st.markdown(f"- {p['Nom']} | Ref: {p['Ref']} | Glucides: {p['Glucide']}g | Caf: {p['Caf']}")
+    #for bloc in plan:
+        #st.markdown(f"### Heure {bloc['heure']} (Total Glucides : {bloc['glucides']}g)")
+        #for p in bloc['produits']:
+            #st.markdown(f"- {p['Nom']} | Ref: {p['Ref']} | Glucides: {p['Glucide']}g | Caf: {p['Caf']}")
 
