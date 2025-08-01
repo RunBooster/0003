@@ -267,7 +267,7 @@ df_caf = df[df['Caf'] != 0]
 def construire_plan_nutritionnel(tpsestimeh, Cho):
     plan = []
     ordre = [df_C, df_BA, df_G]  # Ordre de priorité
-    
+    tpsestimeh = int(tpsestimeh)
     for heure in range(1, tpsestimeh + 1):
         produits_heure = []
         glucides = 0
