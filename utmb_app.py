@@ -11,6 +11,9 @@ import plotly.graph_objs as go
 import gpxpy
 from geopy.distance import geodesic
 import requests
+from collections import Counter
+
+compteur_produits = Counter()
 
 proposition = []
 
@@ -302,6 +305,7 @@ for heure in np.arange(0, heures_pleines, 1):
             break
         if produit.Glucide <= glucide_restant+10:
             produits_text.append(f"+ 1 {produit.Nom}")
+            compteur_produits[produit.Nom] += 1
             glucide_restant -= produit.Glucide
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium
@@ -309,6 +313,7 @@ for heure in np.arange(0, heures_pleines, 1):
     x_brut = (Cho - glucide_tot) / glucide_1
     valeurs_possibles = [0.5, 1, 1.5]
     x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+    compteur_produits[produit_1.Nom] += x_1
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
@@ -323,6 +328,7 @@ if derniere_heure > 0:
     x_brut = (Cho*derniere_heure) / glucide_1
     valeurs_possibles = [0.5, 1, 1.5]
     x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+    compteur_produits[produit_1.Nom] += x_1
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
@@ -335,6 +341,7 @@ for produit in produits_suivants.itertuples():
         break
     if produit.Glucide <= glucide_restant:
         produits_text.append(f"+ 1 {produit.Nom}")
+        compteur_produits[produit.Nom] += 1
         glucide_restant -= produit.Glucide
         glucide_tot+=produit.Glucide
         sodium_tot+=produit.Sodium*1000
@@ -361,6 +368,12 @@ if st.button("Submit"):
     #df = pd.read_csv(DATA_FILE)
     #df = pd.concat([df, new_row], ignore_index=True)
     #df.to_csv(DATA_FILE, index=False)
+    resume_text = []
+    for nom, count in compteur_produits.items():
+        total = round(count) if count % 1 == 0 else round(count, 1)
+        resume_text.append(f"{total} × {nom}")
+    plan.append(f"\n🧾 To take : {', '.join(resume_text)}.")
+    
     if plan:
          st.write("### Nutritional plan generated :")
          for ligne in proposition:
