@@ -221,15 +221,8 @@ if race != "other":
 
 
 temp=st.checkbox("More than 20°C scheduled")
-col0, col1, col2, col3 = st.columns([0.5, 0.5, 0.5, 1.8])  
-with col0:
-    st.write("Intolérances ?")
-with col1:
-    filtrer_noix = st.checkbox("Nuts")
-with col2:
-    filtrer_lactose = st.checkbox("Lactose")
-with col3:
-    filtrer_gluten = st.checkbox("Gluten")
+filtrer_noix = st.checkbox("Nuts intolerance")
+
 values = list(range(40, 91))
 Cho = st.select_slider("Your carbs consumption (g/h), or let the default value:", options=values, value=60)
 typo = st.multiselect("Products you don't want", ["Bars", "Gels", "Energy Drinks", "Compotes", "Electrolytes"])
