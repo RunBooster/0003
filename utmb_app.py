@@ -12,6 +12,8 @@ import gpxpy
 from geopy.distance import geodesic
 import requests
 
+proposition = []
+
 produits = "produits Baouw.xlsx"  
 df = pd.read_excel(produits, sheet_name="Produits énergétiques", engine="openpyxl")
 DATA_FILE = "private_user_data.csv"
@@ -24,8 +26,7 @@ st.divider()
 langue=st.radio("Language 👇", ["English", "Français"], horizontal=True)
 
 def load_data():
-    df = pd.read_excel("produits Baouw.xlsx")  # Remplace par ton fichier
-    df["Marque"] = df["Marque"].astype(str) # Convertir toutes les valeurs en string
+    df = pd.read_excel("produits Baouw.xlsx")  
     df["Nom"] = df["Nom"].astype(str)     
     return df
 df = load_data()
@@ -69,6 +70,7 @@ elif race == "UTMB":
     tpsestimeCourmayeur=0.00170972442749155*(cote)*(cote)-3.31082485336002*(cote)+2134.76741108279
     tpsestimehCourmayeur=tpsestimeCourmayeur/60
     st.write('➜Estimated passage time in Courmayeur:', int(tpsestimehCourmayeur), 'h', int((tpsestimehCourmayeur%1)*60), 'min' )
+    proposition.append(f"Estimated passage time in Courmayeur: {int(tpsestimehCourmayeur)}h {int((tpsestimehCourmayeur%1)*60)}min")
     
 elif race == "CCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/ccc.gpx"
@@ -84,6 +86,7 @@ elif race == "CCC":
     tpsestimeChampex=0.00110605836740463*(cote)*(cote)-2.15953926753332*(cote)+1371.82481156076
     tpsestimehChampex=tpsestimeChampex/60
     st.write('➜Estimated passage time in Champex Lac:', int(tpsestimehChampex), 'h', int((tpsestimehChampex%1)*60), 'min' )
+    proposition.append(f"Estimated passage time in Champex Lac: {int(tpsestimehChampex)}h {int((tpsestimehChampex%1)*60)}min")
 
 elif race == "OCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/occ.gpx"
@@ -115,6 +118,7 @@ elif race == "TDS":
     tpsestimeBeaufort=0.00257053620937511*(cote)*(cote)-4.72963365166168*(cote)+2849.97700254133
     tpsestimehBeaufort=tpsestimeBeaufort/60
     st.write('➜Estimated passage time in Beaufort:', int(tpsestimehBeaufort), 'h', int((tpsestimehBeaufort%1)*60), 'min' )
+    proposition.append(f"Estimated passage time in Beaufort: {int(tpsestimehBeaufort)}h {int((tpsestimehBeaufort%1)*60)}min")
 
 elif race == "MCC":
     gpx_url = "https://raw.githubusercontent.com/RunBooster/0003/refs/heads/main/mcc.gpx"
@@ -132,6 +136,7 @@ elif race == "ETC":
 
 tpsestimeh=tpsestime/60
 st.write('➜Estimated racing time:', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
+proposition.append(f"Estimated racing time: {int(tpsestimeh)}h {int((tpsestimeh%1)*60)}min")
 
 if race != "other":
     @st.cache_data
@@ -226,8 +231,34 @@ st.divider()
 
 values = list(range(40, 91))
 Cho = st.select_slider("Your carbs consumption (g/h), or let the default value:", options=values, value=60)
-typo = st.multiselect("Products you don't want", ["Bars", "Gels", "Energy Drinks", "Compotes", "Electrolytes"])
+typo = st.multiselect("Products you don't want", ["Bars", "Gels", "Energy Drinks", "Purees", "Electrolytes"])
 st.divider()
+
+if "Bars" in typo or filtrer_noix:
+    df = df[~(df["Ref"].isin(["BA", "BAS"]))]
+if "Gels" in typo:
+    df = df[~(df["Ref"].isin(["G"]))]
+if "Energy Drinks" in typo:
+    df = df[~(df["Ref"].isin(["B"]))]
+if "Purees" in typo:
+    df = df[~(df["Ref"].isin(["C", "CS"]))]
+if "Electrolytes" in typo:
+    df = df[~(df["Ref"].isin(["E"]))]
+if temp:
+    if race == "UTMB":
+        hnosodium=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,26,27,28,29,30,31,32,33,34,35,36,37,38]
+    elif race == "TDS":
+        hnosodium=[0,1,2,3,4,5,6,7,8,20,21,22,23,24,25,26,27,28,29,30,31,32]
+    elif race == "CCC":
+        hnosodium=[11,12,13,14,15,16,17,18,19,20,21,22,23]
+    else:
+        hnosodium=100
+
+refsel = ["BS", "BAS", "CS"]
+df_prodsel = df[df["Ref"].isin(refsel)]
+
+
+
 
 col4, col5, col6 = st.columns([1,1,1])
 with col4:
@@ -239,8 +270,12 @@ with col6:
 email = st.text_input("E-mail")
 com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
-if com:
+if st.button("Submit"):
     new_row = pd.DataFrame([{"prenom": prenom, "nom": nom, "pays": pays, "email": email}])
     df = pd.read_csv(DATA_FILE)
     df = pd.concat([df, new_row], ignore_index=True)
     df.to_csv(DATA_FILE, index=False)
+    
+    for ligne in proposition:
+        st.write(ligne)
+
