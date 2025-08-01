@@ -304,7 +304,7 @@ for heure in np.arange(0, heures_pleines, 1):
         if glucide_restant <= 0:
             break
         if produit.Glucide <= glucide_restant+10:
-            produits_text.append(f"+ 1 {produit.Nom} de la marque {produit.Marque}")
+            produits_text.append(f"+ 1 {produit.Nom}")
             glucide_restant -= produit.Glucide
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium
@@ -335,7 +335,7 @@ for produit in produits_suivants.itertuples():
     if glucide_restant <= 0:
         break
     if produit.Glucide <= glucide_restant:
-        produits_text.append(f"+ 1 {produit.Nom} de la marque {produit.Marque}")
+        produits_text.append(f"+ 1 {produit.Nom}")
         glucide_restant -= produit.Glucide
         glucide_tot+=produit.Glucide
         sodium_tot+=produit.Sodium*1000
