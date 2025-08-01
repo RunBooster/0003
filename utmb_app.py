@@ -31,7 +31,7 @@ def load_data():
     return df
 df = load_data()
 
-race = st.selectbox("Choose your race", ("UTMB", "TDS", "CCC", "OCC", "MCC", "ETC", "other"))
+race = st.selectbox("Choose your race", ("other", "UTMB", "TDS", "CCC", "OCC", "MCC", "ETC"))
 cote = st.number_input("Your UTMB Index", min_value=1, value=500)
 
 ravitos = []
