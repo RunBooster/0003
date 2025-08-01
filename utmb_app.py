@@ -318,7 +318,6 @@ for heure in np.arange(0, heures_pleines, 1):
     plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
 
 if derniere_heure > 0:
-    eau=derniere_heure*eau
     glucide_tot=0
     sodium_tot=0
     caf_tot=0
