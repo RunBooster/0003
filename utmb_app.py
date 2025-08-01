@@ -266,32 +266,18 @@ df_caf = df[df['Caf'] != 0]
 
 def construire_plan_nutritionnel(tpsestimeh, Cho):
     plan = []
-    ordre = [df_C, df_BA, df_G]  # Ordre de priorité
+    ordre = [df_C, df_BA, df_G, df_caf, df_prodsel]  # Ordre de priorité
     tpsestimeh = int(tpsestimeh)
     for heure in range(1, tpsestimeh + 1):
         produits_heure = []
         glucides = 0
-        
-        # -- Toutes les 3h : produit avec caféine
-        if heure % 3 == 0:
-            prod_caf = df_caf.sample(1).iloc[0]
-            produits_heure.append(prod_caf)
-            glucides += prod_caf['Glucide']
-
-        # -- Toutes les 4h : produit aléatoire de df_prodsel
-        elif heure % 4 == 0:
-            prod_rand = df_prodsel.sample(1).iloc[0]
-            produits_heure.append(prod_rand)
-            glucides += prod_rand['Glucide']
-        
-        else:
             # Produit selon ordre C > BA > G
-            for groupe in ordre:
-                if not groupe.empty:
-                    prod = groupe.sample(1).iloc[0]
-                    produits_heure.append(prod)
-                    glucides += prod['Glucide']
-                    break
+        for groupe in ordre:
+            if not groupe.empty:
+                prod = groupe.sample(1).iloc[0]
+                produits_heure.append(prod)
+                glucides += prod['Glucide']
+                break
 
         # -- Complément avec B pour atteindre Cho
         manque = Cho - glucides
