@@ -254,6 +254,7 @@ if temp:
     else:
         hnosodium=100
 
+
 refsel = ["BAS", "CS"]
 df_prodsel = df[df["Ref"].isin(refsel)]
 df_C = df[df['Ref'] == 'C']
@@ -262,15 +263,10 @@ df_G = df[df['Ref'] == 'G']
 df_B = df[df['Ref'] == 'B']
 df_caf = df[df['Caf'] != 0]
 
-#Chosolide=Cho-38
+
 plan = []
-def ajuster_x(glucide, min_cible, max_cible):
-    if min_cible <= glucide <= max_cible:  # Vérifie si 1 sachet est dans la cible
-        return 1, "sachet"
-    elif min_cible <= 0.5 * glucide <= max_cible:  # Vérifie si 0.5 sachet fonctionne
-        return 0.5, "sachet"
-    else:
-        return 1, "sachet"  # Si rien ne marche, prendre un sachet entier (mieux vaut trop que pas assez)
+def ajuster_x(glucide, cible):
+        return 1, "sachet"  # Prendre une dosette
         
 heures_pleines = int(tpsestimeh)
 derniere_heure = tpsestimeh % 1
