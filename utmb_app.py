@@ -271,8 +271,6 @@ def ajuster_x(glucide, cible):
 heures_pleines = int(tpsestimeh)
 derniere_heure = tpsestimeh % 1
 produit_1 = None
-hcaf=0
-hsel=4
 for heure in np.arange(0, heures_pleines, 1):
     produit_1 = df[(df["Ref"].isin(["B"]))].sample(1).iloc[0]
     glucide_1 = produit_1["Glucide"]
@@ -284,9 +282,8 @@ for heure in np.arange(0, heures_pleines, 1):
         if produits_filtrés["Ref"].isin(["CS", "BAS"]).sum() == 0:  # Vérifie si produits salés sont absents
             produits_supplémentaires = df[(df["Ref"].isin(["BA", "C", "G"])) & (df["Caf"] == 0)]
             produits_filtrés = pd.concat([produits_filtrés, produits_supplémentaires])
-    elif heure == 0 or heure == hcaf:
+    elif heure == 0 or heure % 5 == 0:
         produits_filtrés = df[(df["Caf"] > 1)]
-        hcaf=hcaf+5
         if produits_filtrés["Ref"].isin(["G", "C", "BA"]).sum() == 0:  # Vérifie si produits caféinés sont absents
             produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"]))]
     else:
