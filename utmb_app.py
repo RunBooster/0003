@@ -254,10 +254,69 @@ if temp:
     else:
         hnosodium=100
 
-refsel = ["BS", "BAS", "CS"]
+refsel = ["BAS", "CS"]
 df_prodsel = df[df["Ref"].isin(refsel)]
+df_C = df[df['Ref'] == 'C']
+df_BA = df[df['Ref'] == 'BA']
+df_G = df[df['Ref'] == 'G']
+df_B = df[df['Ref'] == 'B']
+df_caf = df[df['Caf'] != 0]
 
+#Chosolide=Cho-38
 
+def construire_plan_nutritionnel(tpsestimeh, Cho):
+    plan = []
+    ordre = [df_C, df_BA, df_G]  # Ordre de priorité
+    
+    for heure in range(1, tpsestimeh + 1):
+        produits_heure = []
+        glucides = 0
+        
+        # -- Toutes les 3h : produit avec caféine
+        if heure % 3 == 0:
+            prod_caf = df_caf.sample(1).iloc[0]
+            produits_heure.append(prod_caf)
+            glucides += prod_caf['Glucide']
+
+        # -- Toutes les 4h : produit aléatoire de df_prodsel
+        elif heure % 4 == 0:
+            prod_rand = df_prodsel.sample(1).iloc[0]
+            produits_heure.append(prod_rand)
+            glucides += prod_rand['Glucide']
+        
+        else:
+            # Produit selon ordre C > BA > G
+            for groupe in ordre:
+                if not groupe.empty:
+                    prod = groupe.sample(1).iloc[0]
+                    produits_heure.append(prod)
+                    glucides += prod['Glucide']
+                    break
+
+        # -- Complément avec B pour atteindre Cho
+        manque = Cho - glucides
+        if manque > 0:
+            # Choix du produit B le plus proche en glucide manquant
+            prod_B = df_B.sample(1).iloc[0]
+            glucide_1 = prod_B["Glucide"]
+            x_brut = (Cho - glucides) / glucide_1
+            valeurs_possibles = [0.5, 1, 2, 3]
+            x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+            produits_heure.append(prod_B)
+            glucides+=prod_B.Glucide*x_1
+            
+
+        plan.append({'heure': heure, 'produits': produits_heure, 'glucides': glucides})
+
+    # -- Vérification et ajustement des blocs de 2h
+    for i in range(0, len(plan) - 1, 2):
+        total_2h = plan[i]['glucides'] + plan[i+1]['glucides']
+        if abs(total_2h - 2 * Cho) > 8:
+            # Ajustement si trop éloigné (optionnel)
+            pass  # Tu peux rajouter une logique ici si tu veux
+
+    return plan
+    
 
 
 col4, col5, col6 = st.columns([1,1,1])
@@ -271,11 +330,18 @@ email = st.text_input("E-mail")
 com = st.checkbox("I agree to receive Baouw and RunBooster offers")
 
 if st.button("Submit"):
-    new_row = pd.DataFrame([{"prenom": prenom, "nom": nom, "pays": pays, "email": email}])
-    df = pd.read_csv(DATA_FILE)
-    df = pd.concat([df, new_row], ignore_index=True)
-    df.to_csv(DATA_FILE, index=False)
+    #new_row = pd.DataFrame([{"prenom": prenom, "nom": nom, "pays": pays, "email": email}])
+    #df = pd.read_csv(DATA_FILE)
+    #df = pd.concat([df, new_row], ignore_index=True)
+    #df.to_csv(DATA_FILE, index=False)
     
     for ligne in proposition:
         st.write(ligne)
+        
+    plan = construire_plan_nutritionnel(tpsestimeh, Cho)
+    
+    for bloc in plan:
+        st.markdown(f"### Heure {bloc['heure']} (Total Glucides : {bloc['glucides']}g)")
+        for p in bloc['produits']:
+            st.markdown(f"- {p['Nom']} | Ref: {p['Ref']} | Glucides: {p['Glucide']}g | Caf: {p['Caf']}")
 
