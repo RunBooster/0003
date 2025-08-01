@@ -222,6 +222,7 @@ if race != "other":
 
 temp=st.checkbox("More than 20°C scheduled")
 filtrer_noix = st.checkbox("Nuts intolerance")
+st.divider()
 
 values = list(range(40, 91))
 Cho = st.select_slider("Your carbs consumption (g/h), or let the default value:", options=values, value=60)
