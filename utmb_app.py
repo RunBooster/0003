@@ -323,7 +323,7 @@ if derniere_heure > 0:
     caf_tot=0
     produit_1 = df[df["Ref"] == "B"].sample(1).iloc[0]
     glucide_1 = produit_1["Glucide"]
-    x_1, unite = ajuster_x(glucide_1, 30 * derniere_heure, 40 * derniere_heure)
+    x_1, unite = ajuster_x(glucide_1, 38 * derniere_heure)
     glucide_tot+=produit_1.Glucide*x_1
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
