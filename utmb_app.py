@@ -55,16 +55,16 @@ elif race == "UTMB":
         {"nom": "La Balme", "km": 39.8, "type": "S"},
         {"nom": "Les Chapieux", "km": 50.9, "type": "S"},
         {"nom": "Lac Combal", "km": 68.0, "type": "S"},
-        {"nom": "Checrouit", "km": 77.6, "type": "L"},
-        {"nom": "Courmayeur", "km": 80.2, "type": "A"},
-        {"nom": "Bertone", "km": 85.2, "type": "L"},
-        {"nom": "Arnouvaz", "km": 97.4, "type": "S"},
+        {"nom": "Checrouit", "km": 76.8, "type": "L"},
+        {"nom": "Courmayeur", "km": 81.7, "type": "A"},
+        {"nom": "Bertone", "km": 87.2, "type": "L"},
+        {"nom": "Arnouvaz", "km": 99.6, "type": "S"},
         {"nom": "La Fouly", "km": 115.6, "type": "S"},
-        {"nom": "Champex-Lac", "km": 127.2, "type": "S"},
-        {"nom": "Trient", "km": 141.3, "type": "S"},
-        {"nom": "Vallorcine", "km": 151.8, "type": "S"},
-        {"nom": "La Flégère", "km": 159.5, "type": "L"},
-        {"nom": "Chamonix", "km": 170.0, "type": "A"}]
+        {"nom": "Champex-Lac", "km": 128.7, "type": "S"},
+        {"nom": "Trient", "km": 144.3, "type": "S"},
+        {"nom": "Vallorcine", "km": 155.5, "type": "S"},
+        {"nom": "La Flégère", "km": 167.1, "type": "L"},
+        {"nom": "Chamonix", "km": 174.3, "type": "A"}]
     tpsestime=-0.00000688788001739*(cote)*(cote)*(cote)+0.0182221182514*(cote)*(cote)-17.596971526978*(cote)+7337.2207789047
     tpsestimeCourmayeur=0.00170972442749155*(cote)*(cote)-3.31082485336002*(cote)+2134.76741108279
     tpsestimehCourmayeur=tpsestimeCourmayeur/60
