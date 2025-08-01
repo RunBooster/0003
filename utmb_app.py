@@ -69,7 +69,7 @@ elif race == "UTMB":
     tpsestime=-0.00000688788001739*(cote)*(cote)*(cote)+0.0182221182514*(cote)*(cote)-17.596971526978*(cote)+7337.2207789047
     tpsestimeCourmayeur=0.00170972442749155*(cote)*(cote)-3.31082485336002*(cote)+2134.76741108279
     tpsestimehCourmayeur=tpsestimeCourmayeur/60
-    st.write('➜Estimated passage time in Courmayeur:', int(tpsestimehCourmayeur), 'h', int((tpsestimehCourmayeur%1)*60), 'min' )
+    st.write('⌛ Estimated passage time in Courmayeur:', int(tpsestimehCourmayeur), 'h', int((tpsestimehCourmayeur%1)*60), 'min' )
     proposition.append(f"Estimated passage time in Courmayeur: {int(tpsestimehCourmayeur)}h {int((tpsestimehCourmayeur%1)*60)}min")
     
 elif race == "CCC":
@@ -85,7 +85,7 @@ elif race == "CCC":
     tpsestime=-0.0000035772693135*(cote)*(cote)*(cote)+0.0094696502843*(cote)*(cote)-9.1536878738006*(cote)+3822.0987443797
     tpsestimeChampex=0.00110605836740463*(cote)*(cote)-2.15953926753332*(cote)+1371.82481156076
     tpsestimehChampex=tpsestimeChampex/60
-    st.write('➜Estimated passage time in Champex Lac:', int(tpsestimehChampex), 'h', int((tpsestimehChampex%1)*60), 'min' )
+    st.write('⌛ Estimated passage time in Champex Lac:', int(tpsestimehChampex), 'h', int((tpsestimehChampex%1)*60), 'min' )
     proposition.append(f"Estimated passage time in Champex Lac: {int(tpsestimehChampex)}h {int((tpsestimehChampex%1)*60)}min")
 
 elif race == "OCC":
@@ -117,7 +117,7 @@ elif race == "TDS":
     tpsestime=-0.0000072623741683*(cote)*(cote)*(cote)+0.0183752233114*(cote)*(cote)-17.0113930227568*(cote)+6818.75621299
     tpsestimeBeaufort=0.00257053620937511*(cote)*(cote)-4.72963365166168*(cote)+2849.97700254133
     tpsestimehBeaufort=tpsestimeBeaufort/60
-    st.write('➜Estimated passage time in Beaufort:', int(tpsestimehBeaufort), 'h', int((tpsestimehBeaufort%1)*60), 'min' )
+    st.write('⌛ Estimated passage time in Beaufort:', int(tpsestimehBeaufort), 'h', int((tpsestimehBeaufort%1)*60), 'min' )
     proposition.append(f"Estimated passage time in Beaufort: {int(tpsestimehBeaufort)}h {int((tpsestimehBeaufort%1)*60)}min")
 
 elif race == "MCC":
@@ -135,7 +135,7 @@ elif race == "ETC":
     tpsestime=-0.0000010535438858*(cote)*(cote)*(cote)+0.0023650968191*(cote)*(cote)-1.8805758670806*(cote)+622.66999220336
 
 tpsestimeh=tpsestime/60
-st.write('➜Estimated racing time:', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
+st.write('⏱️ Estimated racing time:', int(tpsestimeh), 'h', int((tpsestimeh%1)*60), 'min' )
 proposition.append(f"Estimated racing time: {int(tpsestimeh)}h {int((tpsestimeh%1)*60)}min")
 
 if race != "other":
