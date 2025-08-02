@@ -277,10 +277,12 @@ derniere_heure = tpsestimeh % 1
 produit_1 = None
 ref_utilisee_precedente = None
 for heure in np.arange(0, heures_pleines, 1):
-    produit_1 = df[(df["Ref"].isin(["B"]))].sample(1).iloc[0]
-    glucide_1 = produit_1["Glucide"]
-    x_1, unite = ajuster_x(glucide_1, 38)
-    glucide_restant = Cho - (x_1 * glucide_1)
+    glucide_restant=Cho
+    if "Energy Drinks" not in typo:
+        produit_1 = df[(df["Ref"].isin(["B"]))].sample(1).iloc[0]
+        glucide_1 = produit_1["Glucide"]
+        x_1, unite = ajuster_x(glucide_1, 38)
+        glucide_restant = Cho - (x_1 * glucide_1)
 
     if heure > 3 and heure % 4 == 0: #on met du salé toutes les 4 heures 
         produits_filtrés = df[(df["Ref"].isin(["CS", "BAS"]))]
@@ -323,9 +325,6 @@ for heure in np.arange(0, heures_pleines, 1):
                 if not produits_differents.empty:
                     produits_suivants.append(produits_differents.sample(1).iloc[0])
     
-
-    
-
     produits_text = []
     glucide_tot=0
     sodium_tot=0
@@ -342,16 +341,19 @@ for heure in np.arange(0, heures_pleines, 1):
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium
             caf_tot+=produit.Caf
-
-    x_brut = (Cho - glucide_tot) / glucide_1
-    valeurs_possibles = [0.5, 1, 1.5]
-    x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
-    compteur_produits[produit_1.Nom] += x_1
-    glucides_par_nom[produit_1.Nom] = produit_1.Glucide
-    glucide_tot+=produit_1.Glucide*x_1
-    sodium_tot+=produit_1.Sodium*x_1
-    caf_tot+=produit_1.Caf*x_1
-    plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
+            
+    if "Energy Drinks" not in typo:
+        x_brut = (Cho - glucide_tot) / glucide_1
+        valeurs_possibles = [0.5, 1, 1.5]
+        x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+        compteur_produits[produit_1.Nom] += x_1
+        glucides_par_nom[produit_1.Nom] = produit_1.Glucide
+        glucide_tot+=produit_1.Glucide*x_1
+        sodium_tot+=produit_1.Sodium*x_1
+        caf_tot+=produit_1.Caf*x_1
+        plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
+    else:
+        plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {' '.join(produits_text)}.")
     if len(produits_suivants) > 0:
             ref_utilisee_precedente = produits_suivants[0].Ref
         
@@ -359,18 +361,20 @@ if derniere_heure > 0:
     glucide_tot=0
     sodium_tot=0
     caf_tot=0
-    produit_1 = df[df["Ref"] == "B"].sample(1).iloc[0]
-    glucide_1 = produit_1["Glucide"]
-    x_brut = (Cho*derniere_heure) / glucide_1
-    valeurs_possibles = [0.5, 1, 1.5]
-    x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
-    compteur_produits[produit_1.Nom] += x_1
-    glucides_par_nom[produit_1.Nom] = produit_1.Glucide
-    glucide_tot+=produit_1.Glucide*x_1
-    sodium_tot+=produit_1.Sodium*x_1
-    caf_tot+=produit_1.Caf*x_1
-    glucide_restant = (Cho * derniere_heure) - (x_1 * glucide_1)
-    produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"]))].sample(1)
+    glucide_restant = (Cho * derniere_heure)
+    if "Energy Drinks" not in typo:
+        produit_1 = df[df["Ref"] == "B"].sample(1).iloc[0]
+        glucide_1 = produit_1["Glucide"]
+        x_brut = (Cho*derniere_heure) / glucide_1
+        valeurs_possibles = [0.5, 1, 1.5]
+        x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
+        compteur_produits[produit_1.Nom] += x_1
+        glucides_par_nom[produit_1.Nom] = produit_1.Glucide
+        glucide_tot+=produit_1.Glucide*x_1
+        sodium_tot+=produit_1.Sodium*x_1
+        caf_tot+=produit_1.Caf*x_1
+        glucide_restant = (Cho * derniere_heure) - (x_1 * glucide_1)
+    produits_suivants = df[(df["Ref"].isin(["G", "C", "BA"]))].sample(2)
     
     produits_text = []
     for produit in produits_suivants.itertuples():
@@ -384,9 +388,10 @@ if derniere_heure > 0:
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium*1000
             caf_tot+=produit.Caf
-        
-    plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
-
+    if "Energy Drinks" not in typo:    
+        plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {x_1} scoop of {produit_1['Nom']} in water {', '.join(produits_text)}.")
+    else:
+        plan.append(f"🕐 Last hour (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot)}mg, Caffeine: {int(caf_tot)}mg) : {', '.join(produits_text)}.")
 
      
 
@@ -409,15 +414,13 @@ if st.button("Submit"):
     resume_text = []
     for nom, count in compteur_produits.items():
         glucide_unitaire = glucides_par_nom.get(nom, 0)
-
         if nom == "Drink Mix":
             total_glucides = round(count * glucide_unitaire)
             resume_text.append(f"{total_glucides} g of {nom}")
         else:
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} × {nom}")
-            
-    plan.append(f"\n # To take : {', '.join(resume_text)}.")
+    plan.append(f"\n### 🧾 To take :\n" + "\n".join([f"• {ligne}" for ligne in resume_text]))
     
     if plan:
          st.write("### Nutritional plan generated :")
