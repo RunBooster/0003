@@ -257,7 +257,7 @@ if temp:
         hnosodium=[11,12,13,14,15,16,17,18,19,20,21,22,23]
     else:
         hnosodium=100
-
+sodiumheureavant=0
 plan = []
 def ajuster_x(glucide, cible):
         return 1, "sachet"  # Prendre une dosette
