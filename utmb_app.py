@@ -332,6 +332,13 @@ for heure in np.arange(0, heures_pleines, 1):
             sodium_tot+=produit.Sodium
             caf_tot+=produit.Caf
             
+    if temp and heure != hnosodium and sodiumheureavant*1000 < 500 and not est_sale:
+        produit = df[(df["Ref"].isin(["E"]))].sample(1).iloc[0]
+        produits_text.append(f"+ 1 tab of {produit.Nom}")
+        glucide_tot+=produit.Glucide
+        sodium_tot+=produit.Sodium
+        compteur_produits[produit.Nom] += 1
+        
     if "Energy Drinks" not in typo:
         x_brut = (Cho - glucide_tot) / glucide_1
         valeurs_possibles = [0.5, 1, 1.5]
@@ -344,6 +351,7 @@ for heure in np.arange(0, heures_pleines, 1):
         plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
     else:
         plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {' '.join(produits_text)}.")
+    sodiumheureavant=sodium_tot
     if len(produits_suivants) > 0:
             ref_utilisee_precedente = produits_suivants[0].Ref
         
@@ -407,10 +415,13 @@ if st.button("Submit"):
         if nom == "Drink Mix":
             total_glucides = round(count * glucide_unitaire)
             resume_text.append(f"{total_glucides} g of {nom}")
+        elif nom == "Electrolyte":
+            total = round(count) if count % 1 == 0 else round(count, 1)
+            resume_text.append(f"{total} tabs of {nom}")
         else:
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} × {nom}")
-    plan.append(f"\n### 🧾 To take :\n" + "\n".join([f"• {ligne}" for ligne in resume_text]))
+    plan.append("\n### 🧾 To take:\n" + "\n".join([f"• {ligne}" for ligne in resume_text]))
     
     if plan:
          st.write("### Nutritional plan generated :")
