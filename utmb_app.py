@@ -415,7 +415,7 @@ if st.button("Submit"):
         if nom == "Drink Mix":
             total_glucides = round(count * glucide_unitaire)
             resume_text.append(f"{total_glucides} g of {nom}")
-        elif nom == "Electrolyte":
+        elif nom == "Electrolytes":
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} tabs of {nom}")
         else:
