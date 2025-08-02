@@ -314,6 +314,8 @@ for heure in np.arange(0, heures_pleines, 1):
             glucide_restant_temp -= nouveau_produit.Glucide
             noms_deja_ajoutes.add(nouveau_produit.Nom)
             refs_deja_ajoutees.add(nouveau_produit.Ref)
+            if est_cafeine:
+                produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0) & (~df["Nom"].isin(noms_deja_ajoutes)) & (~df["Ref"].isin(refs_deja_ajoutees))]
     
     produits_text = []
     glucide_tot=0
