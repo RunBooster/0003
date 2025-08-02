@@ -275,6 +275,7 @@ def ajuster_x(glucide, cible):
 heures_pleines = int(tpsestimeh)
 derniere_heure = tpsestimeh % 1
 produit_1 = None
+ref_utilisee_precedente = None
 for heure in np.arange(0, heures_pleines, 1):
     produit_1 = df[(df["Ref"].isin(["B"]))].sample(1).iloc[0]
     glucide_1 = produit_1["Glucide"]
@@ -292,15 +293,44 @@ for heure in np.arange(0, heures_pleines, 1):
             produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"]))]
     else:
         produits_filtrés = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
-        
-    if len(produits_filtrés) >= 2:
-        produits_suivants = produits_filtrés.sample(2)
-    else:
-        produits_suivants = produits_filtrés  # Si moins de 2 produits, on prend tout ce qui est dispo
+
+    
+    produits_suivants = []
+    # -- 1er produit : tiré normalement
+    if not produits_filtrés.empty:
+        produit_1_suiv = produits_filtrés.sample(1).iloc[0]
+        produits_suivants.append(produit_1_suiv)
+    # Détecte si c’est un salé ou caféiné
+        est_sale = produit_1_suiv.Ref in ["CS", "BAS"]
+        est_cafeine = produit_1_suiv.Caf > 1
+    # -- 2e produit possible (mais selon les contraintes)
+        produits_restants = produits_filtrés[produits_filtrés["Nom"] != produit_1_suiv.Nom]
+
+        if not produits_restants.empty:
+            if est_sale:
+            # on ne veut pas de deuxième salé
+                produits_non_sales = produits_restants[~produits_restants["Ref"].isin(["CS", "BAS"])]
+                if not produits_non_sales.empty:
+                    produits_suivants.append(produits_non_sales.sample(1).iloc[0])
+            elif est_cafeine:
+            # on ne veut pas de deuxième caféiné
+                produits_sans_caf = produits_restants[produits_restants["Caf"] <= 1]
+                if not produits_sans_caf.empty:
+                    produits_suivants.append(produits_sans_caf.sample(1).iloc[0])
+            else:
+            # autre cas : vérifier qu’on ne répète pas la même Ref que l’heure précédente
+                produits_differents = produits_restants[produits_restants["Ref"] != ref_utilisee_precedente]
+                if not produits_differents.empty:
+                    produits_suivants.append(produits_differents.sample(1).iloc[0])
+    
+
+    
+
     produits_text = []
     glucide_tot=0
     sodium_tot=0
     caf_tot=0
+    
     for produit in produits_suivants.itertuples():
         if glucide_restant <= 0:
             break
@@ -312,6 +342,7 @@ for heure in np.arange(0, heures_pleines, 1):
             glucide_tot+=produit.Glucide
             sodium_tot+=produit.Sodium
             caf_tot+=produit.Caf
+
     x_brut = (Cho - glucide_tot) / glucide_1
     valeurs_possibles = [0.5, 1, 1.5]
     x_1 = min(valeurs_possibles, key=lambda x: abs(x - x_brut))
@@ -321,7 +352,9 @@ for heure in np.arange(0, heures_pleines, 1):
     sodium_tot+=produit_1.Sodium*x_1
     caf_tot+=produit_1.Caf*x_1
     plan.append(f"🕐 Hour {heure} (Carbs: {int(glucide_tot)}g, Sodium: {int(sodium_tot*1000)}mg, Caffeine: {int(caf_tot)}mg): {x_1} scoop of {produit_1['Nom']} in water {' '.join(produits_text)}.")
-
+    if len(produits_suivants) > 0:
+            ref_utilisee_precedente = produits_suivants[0].Ref
+        
 if derniere_heure > 0:
     glucide_tot=0
     sodium_tot=0
@@ -384,7 +417,7 @@ if st.button("Submit"):
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} × {nom}")
             
-    plan.append(f"\n ## To take : {', '.join(resume_text)}.")
+    plan.append(f"\n # To take : {', '.join(resume_text)}.")
     
     if plan:
          st.write("### Nutritional plan generated :")
