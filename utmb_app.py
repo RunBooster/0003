@@ -331,7 +331,7 @@ for heure in np.arange(0, heures_pleines, 1):
     sodium_tot=0
     caf_tot=0
     
-    for produit in produits_suivants.itertuples():
+    for produit in produits_suivants:
         if glucide_restant <= 0:
             break
         if produit.Glucide <= glucide_restant+10:
