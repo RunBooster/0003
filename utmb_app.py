@@ -384,7 +384,7 @@ if st.button("Submit"):
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} × {nom}")
             
-    plan.append(f"\n🧾 To take : {', '.join(resume_text)}.")
+    plan.append(f"\n ## To take : {', '.join(resume_text)}.")
     
     if plan:
          st.write("### Nutritional plan generated :")
