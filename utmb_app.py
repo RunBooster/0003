@@ -422,8 +422,7 @@ if st.button("Submit"):
             total = round(count) if count % 1 == 0 else round(count, 1)
             resume_text.append(f"{total} × {nom}")
     #plan.append("\n### 🧾 To take:\n" + "\n".join([f"• {ligne}" for ligne in resume_text]))
-    texte = "### 🧾 To take:\n" + "".join([f"- {ligne}<br>" for ligne in resume_text])
-    st.markdown(texte, unsafe_allow_html=True)
+    
     
     if plan:
          st.write("### Nutritional plan generated :")
@@ -431,7 +430,8 @@ if st.button("Submit"):
               st.write(ligne)
          for ligne in plan:
               st.write(ligne)
-    
+    texte = "### 🧾 To take:\n" + "".join([f"• {ligne}<br>" for ligne in resume_text])
+    st.markdown(texte, unsafe_allow_html=True)
     
     #for bloc in plan:
         #st.markdown(f"### Heure {bloc['heure']} (Total Glucides : {bloc['glucides']}g)")
