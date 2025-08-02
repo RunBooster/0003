@@ -258,16 +258,6 @@ if temp:
     else:
         hnosodium=100
 
-
-refsel = ["BAS", "CS"]
-df_prodsel = df[df["Ref"].isin(refsel)]
-df_C = df[df['Ref'] == 'C']
-df_BA = df[df['Ref'] == 'BA']
-df_G = df[df['Ref'] == 'G']
-df_B = df[df['Ref'] == 'B']
-df_caf = df[df['Caf'] != 0]
-
-
 plan = []
 def ajuster_x(glucide, cible):
         return 1, "sachet"  # Prendre une dosette
@@ -314,7 +304,7 @@ for heure in np.arange(0, heures_pleines, 1):
             if est_sale:
                 produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
             elif est_cafeine:
-                produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
+                produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0) & (~df["Nom"].isin(noms_deja_ajoutes)) & (~df["Ref"].isin(refs_deja_ajoutees))]
             else:
                 produits_candidats = produits_restants[~produits_restants["Ref"].isin(refs_deja_ajoutees)]
             if produits_candidats.empty:
