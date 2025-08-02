@@ -312,9 +312,9 @@ for heure in np.arange(0, heures_pleines, 1):
 
         while glucide_restant_temp > 10 and not produits_restants.empty:
             if est_sale:
-                produits_candidats = produits_restants[~produits_restants["Ref"].isin(["CS", "BAS"])]
+                produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
             elif est_cafeine:
-                produits_candidats = produits_restants[produits_restants["Caf"] <= 1]
+                produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
             else:
                 produits_candidats = produits_restants[~produits_restants["Ref"].isin(refs_deja_ajoutees)]
             if produits_candidats.empty:
