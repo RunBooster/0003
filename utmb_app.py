@@ -302,28 +302,28 @@ for heure in np.arange(0, heures_pleines, 1):
     if not produits_filtrés.empty:
         produit_1_suiv = produits_filtrés.sample(1).iloc[0]
         produits_suivants.append(produit_1_suiv)
-    # Détecte si c’est un salé ou caféiné
+        glucide_restant_temp = glucide_restant - produit_1_suiv.Glucide
         est_sale = produit_1_suiv.Ref in ["CS", "BAS"]
         est_cafeine = produit_1_suiv.Caf > 1
+        refs_deja_ajoutees = {produit_1_suiv.Ref}
+        noms_deja_ajoutes = {produit_1_suiv.Nom}
     # -- 2e produit possible (mais selon les contraintes)
-        produits_restants = produits_filtrés[produits_filtrés["Nom"] != produit_1_suiv.Nom]
+        produits_restants = produits_filtrés[~produits_filtrés["Nom"].isin(noms_deja_ajoutes)]
 
-        if not produits_restants.empty:
+        while glucide_restant_temp > 10 and not produits_restants.empty:
             if est_sale:
-            # on ne veut pas de deuxième salé
-                produits_non_sales = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
-                if not produits_non_sales.empty:
-                    produits_suivants.append(produits_non_sales.sample(1).iloc[0])
+                produits_candidats = produits_restants[~produits_restants["Ref"].isin(["CS", "BAS"])]
             elif est_cafeine:
-            # on ne veut pas de deuxième caféiné
-                produits_sans_caf = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
-                if not produits_sans_caf.empty:
-                    produits_suivants.append(produits_sans_caf.sample(1).iloc[0])
+                produits_candidats = produits_restants[produits_restants["Caf"] <= 1]
             else:
-            # autre cas : vérifier qu’on ne répète pas la même Ref que l’heure précédente
-                produits_differents = produits_restants[produits_restants["Ref"] != ref_utilisee_precedente]
-                if not produits_differents.empty:
-                    produits_suivants.append(produits_differents.sample(1).iloc[0])
+                produits_candidats = produits_restants[~produits_restants["Ref"].isin(refs_deja_ajoutees)]
+            if produits_candidats.empty:
+                break
+            nouveau_produit = produits_candidats.sample(1).iloc[0]
+            produits_suivants.append(nouveau_produit)
+            glucide_restant_temp -= nouveau_produit.Glucide
+            noms_deja_ajoutes.add(nouveau_produit.Nom)
+            refs_deja_ajoutees.add(nouveau_produit.Ref)
     
     produits_text = []
     glucide_tot=0
