@@ -306,8 +306,7 @@ for heure in np.arange(0, heures_pleines, 1):
             elif est_cafeine:
                 produits_candidats = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0) & (~df["Nom"].isin(noms_deja_ajoutes)) & (~df["Ref"].isin(refs_deja_ajoutees))]
             else:
-                produits_restants = produits_restants[~produits_restants["Nom"].isin(noms_deja_ajoutes) & ~produits_restants["Ref"].isin(refs_deja_ajoutees)]
-                produits_candidats = produits_restants
+                produits_candidats = produits_restants[~produits_restants["Ref"].isin(refs_deja_ajoutees)]
             if produits_candidats.empty:
                 break
             nouveau_produit = produits_candidats.sample(1).iloc[0]
@@ -322,19 +321,18 @@ for heure in np.arange(0, heures_pleines, 1):
     glucide_tot=0
     sodium_tot=0
     caf_tot=0
-
-    glucide_temp = glucide_restant  # variable locale
+    
     for produit in produits_suivants:
-        if glucide_temp <= 0:
+        if glucide_restant <= 0:
             break
-        if produit.Glucide <= glucide_temp + 10:
+        if produit.Glucide <= glucide_restant+10:
             produits_text.append(f"+ 1 {produit.Nom}")
             compteur_produits[produit.Nom] += 1
             glucides_par_nom[produit.Nom] = produit.Glucide
-            glucide_temp -= produit.Glucide
-            glucide_tot += produit.Glucide
-            sodium_tot += produit.Sodium
-            caf_tot += produit.Caf
+            glucide_restant -= produit.Glucide
+            glucide_tot+=produit.Glucide
+            sodium_tot+=produit.Sodium
+            caf_tot+=produit.Caf
             
     if "Energy Drinks" not in typo:
         x_brut = (Cho - glucide_tot) / glucide_1
