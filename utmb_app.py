@@ -256,7 +256,7 @@ if temp:
     elif race == "CCC":
         hnosodium=[11,12,13,14,15,16,17,18,19,20,21,22,23]
     else:
-        hnosodium=100
+        hnosodium=[]
 sodiumheureavant=0
 plan = []
 def ajuster_x(glucide, cible):
@@ -332,7 +332,7 @@ for heure in np.arange(0, heures_pleines, 1):
             sodium_tot+=produit.Sodium
             caf_tot+=produit.Caf
             
-    if temp and heure != hnosodium and sodiumheureavant*1000 < 500 and not est_sale and "Electrolytes" not in typo:
+    if temp and heure not in hnosodium and sodiumheureavant*1000 < 500 and not est_sale and "Electrolytes" not in typo:
         produit = df[(df["Ref"].isin(["E"]))].sample(1).iloc[0]
         produits_text.append(f"+ 1 tab of {produit.Nom}")
         glucide_tot+=produit.Glucide
