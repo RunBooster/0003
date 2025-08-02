@@ -309,12 +309,12 @@ for heure in np.arange(0, heures_pleines, 1):
         if not produits_restants.empty:
             if est_sale:
             # on ne veut pas de deuxième salé
-                produits_non_sales = produits_restants[~produits_restants["Ref"].isin(["CS", "BAS"])]
+                produits_non_sales = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
                 if not produits_non_sales.empty:
                     produits_suivants.append(produits_non_sales.sample(1).iloc[0])
             elif est_cafeine:
             # on ne veut pas de deuxième caféiné
-                produits_sans_caf = produits_restants[produits_restants["Caf"] <= 1]
+                produits_sans_caf = df[(df["Ref"].isin(["G", "C", "BA"])) & (df["Caf"] == 0)]
                 if not produits_sans_caf.empty:
                     produits_suivants.append(produits_sans_caf.sample(1).iloc[0])
             else:
