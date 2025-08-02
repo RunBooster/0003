@@ -332,7 +332,7 @@ for heure in np.arange(0, heures_pleines, 1):
             sodium_tot+=produit.Sodium
             caf_tot+=produit.Caf
             
-    if temp and heure != hnosodium and sodiumheureavant*1000 < 500 and not est_sale:
+    if temp and heure != hnosodium and sodiumheureavant*1000 < 500 and not est_sale and "Electrolytes" not in typo:
         produit = df[(df["Ref"].isin(["E"]))].sample(1).iloc[0]
         produits_text.append(f"+ 1 tab of {produit.Nom}")
         glucide_tot+=produit.Glucide
